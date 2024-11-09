@@ -18,6 +18,13 @@ public class RequestHandlingServlet extends HttpServlet {
 
         HashMap<String, RequestCallback> router = Expresso.getRouter();
         RequestCallback callback = router.get(req.getPathInfo());
+
+        if (callback == null) {
+            resp.setStatus(400);
+            resp.getWriter().println("Path Not found");
+            return;
+        }
+
         callback.execute(req, resp);
 
     }
