@@ -6,19 +6,26 @@ public class Test {
     public static void main(String[] args) {
         Expresso app = Expresso.init();
 
-        app.get("/about", (req, res) -> {
+        /*
+         * Basic text in response uses HttpServletRequst and HttpServletResponse in
+         * parameters
+         */
+        app.get("/home", (req, res) -> {
             try {
-                res.setContentType("application/json");
-                res.getWriter().println("{\"inside\" : \"about\" , \"dataType\" : \"json\"}");
+                res.setContentType("text/html");
+                res.getWriter().println("in home path :)");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
 
-        app.get("/home", (req, res) -> {
+        /*
+         * Sends json in response
+         */
+        app.get("/about", (req, res) -> {
             try {
-                res.setContentType("text/html");
-                res.getWriter().println("in home path :)");
+                res.setContentType("application/json");
+                res.getWriter().println("{\"inside\" : \"about\" , \"dataType\" : \"json\"}");
             } catch (IOException e) {
                 e.printStackTrace();
             }
