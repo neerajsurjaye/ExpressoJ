@@ -1,6 +1,5 @@
 package com.spec.web.expresso;
 
-import java.net.HttpURLConnection;
 import java.util.HashMap;
 
 import com.spec.web.expresso.callback.RequestCallback;
@@ -61,6 +60,7 @@ public class Expresso implements IExpresso {
                     .setHandler(manager.start())
                     .build();
             server.start();
+            System.err.println("Server running on port " + port);
         } catch (Exception e) {
             System.out.println(e);
         }
