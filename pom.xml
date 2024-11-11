@@ -30,28 +30,16 @@
     <build>
 
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.spec.web.expresso.Test</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version> <!-- Use the latest version available -->
+                <version>3.2.1</version>
                 <executions>
                     <execution>
-                        <phase>package</phase> <!-- Runs during the 'package' phase -->
+                        <phase>package</phase>
                         <goals>
-                            <goal>shade</goal> <!-- Goal to create the fat JAR -->
+                            <goal>shade</goal>
                         </goals>
                     </execution>
                 </executions>
