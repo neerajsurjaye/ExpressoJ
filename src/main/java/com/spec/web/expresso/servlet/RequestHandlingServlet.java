@@ -38,7 +38,7 @@ public class RequestHandlingServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ExpressoRouter expressoRouter = Expresso.getExpressoRouter();
 
-        RequestCallback callback = expressoRouter.getHttpPostMappings().getCallbackOnPath(req.getPathInfo());
+        RequestCallback callback = expressoRouter.getHttpPutMappings().getCallbackOnPath(req.getPathInfo());
 
         executeCallback(req, resp, callback);
     }
