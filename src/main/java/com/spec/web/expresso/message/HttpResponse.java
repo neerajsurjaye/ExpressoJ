@@ -1,23 +1,31 @@
 package com.spec.web.expresso.message;
 
-/*
- * Modifies the response that will be send to the client.
- */
-public interface HttpResponse {
+import jakarta.servlet.http.HttpServletResponse;
 
-    /*
-     * Sets the reponse body that will be sent back to client.
-     */
-    void setResponse(String response);
+public class HttpResponse implements Response {
 
-    /*
-     * Sets the status code of the response.
-     */
-    void setStatusCode(Integer statusCode);
+    HttpServletResponse resp;
 
-    /*
-     * Sets the response headers.
-     */
-    void setResponseHeaders();
+    HttpResponse(HttpServletResponse resp) {
+        this.resp = resp;
+    }
+
+    @Override
+    public HttpResponse setResponse(String response) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setResponse'");
+    }
+
+    @Override
+    public HttpResponse setStatusCode(Integer statusCode) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setStatusCode'");
+    }
+
+    @Override
+    public HttpResponse setResponseHeaders() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setResponseHeaders'");
+    }
 
 }
