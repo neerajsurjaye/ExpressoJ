@@ -4,6 +4,7 @@ import java.net.HttpURLConnection;
 import java.util.HashMap;
 
 import com.spec.web.expresso.callback.RequestCallback;
+import com.spec.web.expresso.router.ExpressoRouter;
 import com.spec.web.expresso.servlet.RequestHandlingServlet;
 
 import io.undertow.Undertow;
@@ -21,12 +22,19 @@ public class Expresso implements IExpresso {
     private static Undertow server = null;
     private static DeploymentManager manager = null;
 
+    // @Getter
+    // private static HashMap<String, RequestCallback> router
     @Getter
-    private static HashMap<String, RequestCallback> router;
+    private static ExpressoRouter expressoRouter = null;
 
     private Expresso() {
 
-        router = new HashMap<>();
+    }
+
+    public static Expresso init() {
+
+        // router = new HashMap<>();
+        expressoRouter = new ExpressoRouter();
 
         // todo: Understand what exactly is happening here
         DeploymentInfo serverBuilder = Servlets.deployment()
@@ -39,9 +47,6 @@ public class Expresso implements IExpresso {
         manager = Servlets.defaultContainer().addDeployment(serverBuilder);
         manager.deploy();
 
-    }
-
-    public static Expresso init() {
         if (expressoObj != null)
             return expressoObj;
         expressoObj = new Expresso();
@@ -50,7 +55,22 @@ public class Expresso implements IExpresso {
 
     @Override
     public void get(String path, RequestCallback callback) {
-        router.put(path, callback);
+        expressoRouter.getHttpGetMappings().addPath(path, callback);
+    }
+
+    @Override
+    public void post(String path, RequestCallback callback) {
+        expressoRouter.getHttpPostMappings().addPath(path, callback);
+    }
+
+    @Override
+    public void put(String path, RequestCallback callback) {
+        expressoRouter.getHttpPutMappings().addPath(path, callback);
+    }
+
+    @Override
+    public void delete(String path, RequestCallback callback) {
+        expressoRouter.getHttpDeleteMappings().addPath(path, callback);
     }
 
     @Override

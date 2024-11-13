@@ -9,6 +9,12 @@ public interface IExpresso {
 
     void get(String path, RequestCallback callback);
 
+    void post(String path, RequestCallback callback);
+
+    void put(String path, RequestCallback callback);
+
+    void delete(String path, RequestCallback callback);
+
     void listen(int port);
 
 }
