@@ -1,5 +1,6 @@
 package com.spec.web.expresso.message;
 
+import java.io.IOException;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class HttpResponse implements Response {
@@ -12,20 +13,32 @@ public class HttpResponse implements Response {
 
     @Override
     public HttpResponse setResponse(String response) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setResponse'");
+
+        try {
+            resp.getWriter().write(response);
+        } catch (IOException e) {
+            try {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.toString());
+            } catch (IOException e1) {
+                // add logger
+                e1.printStackTrace();
+            }
+        }
+
+        return this;
+
     }
 
     @Override
     public HttpResponse setStatusCode(Integer statusCode) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setStatusCode'");
+        resp.setStatus(statusCode);
+        return this;
     }
 
     @Override
-    public HttpResponse setResponseHeaders() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setResponseHeaders'");
+    public HttpResponse setResponseHeaders(String name, String value) {
+        resp.setHeader(name, value);
+        return this;
     }
 
 }

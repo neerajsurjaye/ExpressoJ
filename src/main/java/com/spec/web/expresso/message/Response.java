@@ -18,6 +18,6 @@ public interface Response {
     /*
      * Sets the response headers.
      */
-    HttpResponse setResponseHeaders();
+    HttpResponse setResponseHeaders(String name, String value)
 
 }
