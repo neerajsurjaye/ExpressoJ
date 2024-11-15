@@ -1,5 +1,8 @@
 package com.spec.web.expresso.message;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 public class HttpRequest implements Request {
@@ -11,15 +14,17 @@ public class HttpRequest implements Request {
     }
 
     @Override
-    public String payload() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'payload'");
-    }
+    public String payload() throws IOException {
+        BufferedReader br = req.getReader();
+        StringBuilder sb = new StringBuilder();
+        String line = null;
 
-    @Override
-    public Object json() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'json'");
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+
+        return sb.toString();
+
     }
 
 }

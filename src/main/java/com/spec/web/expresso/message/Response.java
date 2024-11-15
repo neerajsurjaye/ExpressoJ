@@ -18,6 +18,12 @@ public interface Response {
     /*
      * Sets the response headers.
      */
-    HttpResponse setResponseHeaders(String name, String value)
+    // todo: check if multiple headers can be set
+    HttpResponse setResponseHeader(String name, String value);
+
+    /*
+     * Sets content type
+     */
+    HttpResponse setContentTypeHeader(String contentType);
 
 }

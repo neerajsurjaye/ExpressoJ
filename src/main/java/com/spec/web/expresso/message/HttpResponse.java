@@ -36,8 +36,14 @@ public class HttpResponse implements Response {
     }
 
     @Override
-    public HttpResponse setResponseHeaders(String name, String value) {
+    public HttpResponse setResponseHeader(String name, String value) {
         resp.setHeader(name, value);
+        return this;
+    }
+
+    @Override
+    public HttpResponse setContentTypeHeader(String contentType) {
+        this.setResponseHeader("Content-Type", contentType);
         return this;
     }
 
