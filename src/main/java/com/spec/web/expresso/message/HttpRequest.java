@@ -36,6 +36,7 @@ public class HttpRequest implements Request {
     @Override
     public String body() throws IOException {
             InputStream inputStream = req.getInputStream();
+            if(inputStream == null) return "";
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[BUFFER_SIZE];
             int length;
@@ -46,7 +47,6 @@ public class HttpRequest implements Request {
             byte[] requestBody = outputStream.toByteArray();
             // Get the character encoding from the request
             String encoding = req.getCharacterEncoding();
-            System.err.println("encoding = " + encoding);
             if (encoding == null) {
                 // If the request doesn't specify the encoding, use a default (e.g., UTF-8)
                 encoding = "UTF-8";
