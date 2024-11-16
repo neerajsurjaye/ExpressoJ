@@ -2,19 +2,20 @@ package com.spec.web.expresso.message;
 
 import java.io.IOException;
 
-/*
- * Empty for now 
+/**
+ * Represent a Http request
  */
 public interface Request {
-
-    /*
-     * Gives the payload of the request
-     */
-    String payload() throws IOException;
-
     /*
      * Gives the payload as json
      */
     public <T> T json(Class<T> type) throws Exception;
+
+    /**
+     * Returns the body(payload) of the Http request
+     * 
+     * @return The body of the request
+     */
+    String body() throws IOException;
 
 }

@@ -10,18 +10,31 @@ import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 
 
+/*
+ * Wrapper class over HttpServletRequest. 
+ * Helps in handling of Http request
+ */
 public class HttpRequest implements Request {
 
     HttpServletRequest req;
 
     private static final int BUFFER_SIZE = 1024;
 
+    /**
+     * 
+     * @param req HttpServlet to wrap
+     */
     public HttpRequest(HttpServletRequest req) {
         this.req = req;
     }
 
+    /**
+     * Returns the Http body of the HttpRequest in String format
+     * 
+     * @return payload in string format
+     */
     @Override
-    public String payload() throws IOException {
+    public String body() throws IOException {
             InputStream inputStream = req.getInputStream();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[BUFFER_SIZE];
