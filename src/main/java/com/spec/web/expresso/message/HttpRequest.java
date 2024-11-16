@@ -5,16 +5,29 @@ import java.io.IOException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+/*
+ * Wrapper class over HttpServletRequest. 
+ * Helps in handling of Http request
+ */
 public class HttpRequest implements Request {
 
     HttpServletRequest req;
 
+    /**
+     * 
+     * @param req HttpServlet to wrap
+     */
     HttpRequest(HttpServletRequest req) {
         this.req = req;
     }
 
+    /**
+     * Returns the Http body of the HttpRequest in String format
+     * 
+     * @return payload in string format
+     */
     @Override
-    public String payload() throws IOException {
+    public String body() throws IOException {
         BufferedReader br = req.getReader();
         StringBuilder sb = new StringBuilder();
         String line = null;
