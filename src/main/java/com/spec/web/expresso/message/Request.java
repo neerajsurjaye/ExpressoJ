@@ -9,7 +9,7 @@ public interface Request {
     /*
      * Gives the payload as json
      */
-    public <T> T json(Class<T> type) throws Exception;
+    public <T> T json(Class<T> type) throws IllegalArgumentException, IOException;
 
     /**
      * Returns the body(payload) of the Http request

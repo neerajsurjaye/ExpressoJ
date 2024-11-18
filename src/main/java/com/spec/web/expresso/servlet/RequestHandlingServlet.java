@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * Servlet to handle HTTP request and route them to appropriate callback
  * function.
  */
+// todo: handle executecallback exceptions
 public class RequestHandlingServlet extends HttpServlet {
 
     @Override

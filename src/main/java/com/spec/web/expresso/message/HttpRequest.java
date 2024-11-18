@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
 /*
  * Wrapper class over HttpServletRequest. 
  * Helps in handling of Http request
@@ -35,40 +34,50 @@ public class HttpRequest implements Request {
      */
     @Override
     public String body() throws IOException {
-            InputStream inputStream = req.getInputStream();
-            if(inputStream == null) return "";
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
+        InputStream inputStream = req.getInputStream();
+        if (inputStream == null)
+            return "";
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
+        }
 
-            byte[] requestBody = outputStream.toByteArray();
-            // Get the character encoding from the request
-            String encoding = req.getCharacterEncoding();
-            if (encoding == null) {
-                // If the request doesn't specify the encoding, use a default (e.g., UTF-8)
-                encoding = "UTF-8";
-            }
-            // Convert the request body to a string using the specified encoding
-            return new String(requestBody, encoding);
+        byte[] requestBody = outputStream.toByteArray();
+        // Get the character encoding from the request
+        String encoding = req.getCharacterEncoding();
+        if (encoding == null) {
+            // If the request doesn't specify the encoding, use a default (e.g., UTF-8)
+            encoding = "UTF-8";
+        }
+        // Convert the request body to a string using the specified encoding
+        return new String(requestBody, encoding);
     }
 
-    // usage MyCustomClass newObject = json(MyCustomClass.class);
+    /**
+     * Deserializes a JSON string to an instance of specified class
+     * 
+     * pass the Class.class to the following function.
+     * Ex: json(Myclass.class)
+     * 
+     * it will the object of Myclass
+     * 
+     * @throws IOException
+     */
     @Override
-    public <T> T json(Class<T> type) throws Exception {
+    public <T> T json(Class<T> type) throws IllegalArgumentException, IOException {
         String contentType = req.getContentType();
-        
+
+        // todo: in future .err should handle this
         if (!("application/json".equals(contentType))) {
-            throw new Exception("Invalid content type");
+            throw new IllegalArgumentException("Invalid content type");
         }
 
         BufferedReader reader = req.getReader();
         Gson gson = new Gson();
-        T newObject = gson.fromJson(reader, type);
+        return gson.fromJson(reader, type);
 
-        return newObject;
     }
 
 }

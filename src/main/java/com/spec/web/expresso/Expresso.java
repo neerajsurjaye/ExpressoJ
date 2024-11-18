@@ -22,7 +22,7 @@ public class Expresso implements IExpresso {
     private static Expresso expressoObj = null;
 
     /** The http server */
-    private static Undertow server = null;
+    private Undertow server = null;
     /** used by undertow */
     private static DeploymentManager manager = null;
 
