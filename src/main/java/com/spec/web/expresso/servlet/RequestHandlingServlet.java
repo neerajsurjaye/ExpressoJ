@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import com.spec.web.expresso.Expresso;
 import com.spec.web.expresso.callback.RequestCallback;
+import com.spec.web.expresso.message.HttpRequest;
+import com.spec.web.expresso.message.HttpResponse;
 import com.spec.web.expresso.router.ExpressoRouter;
 
 import jakarta.servlet.ServletException;
@@ -61,7 +63,10 @@ public class RequestHandlingServlet extends HttpServlet {
             return;
         }
 
-        callback.execute(req, resp);
+        HttpRequest request = new HttpRequest(req);
+        HttpResponse response = new HttpResponse(resp);
+
+        callback.execute(request, response);
 
     }
 
