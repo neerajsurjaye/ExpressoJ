@@ -1,7 +1,7 @@
 package com.spec.web.expresso.callback;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.spec.web.expresso.message.HttpRequest;
+import com.spec.web.expresso.message.HttpResponse;
 
 /*
  * The following functional interface will be implemented by the user, using a lambda expression.
@@ -18,6 +18,6 @@ public interface RequestCallback {
      * @param res represents client response
      * 
      */
-    void execute(HttpServletRequest req, HttpServletResponse res);
+    void execute(HttpRequest req, HttpResponse res);
 
 }

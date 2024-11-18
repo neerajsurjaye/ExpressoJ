@@ -6,6 +6,10 @@ import java.io.IOException;
  * Represent a Http request
  */
 public interface Request {
+    /*
+     * Gives the payload as json
+     */
+    public <T> T json(Class<T> type) throws Exception;
 
     /**
      * Returns the body(payload) of the Http request

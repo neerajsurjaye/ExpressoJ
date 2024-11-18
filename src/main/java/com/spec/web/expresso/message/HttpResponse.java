@@ -16,7 +16,7 @@ public class HttpResponse implements Response {
      * 
      * @param resp HttpServletResponse to wrap
      */
-    HttpResponse(HttpServletResponse resp) {
+    public HttpResponse(HttpServletResponse resp) {
         this.resp = resp;
     }
 
