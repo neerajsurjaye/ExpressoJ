@@ -13,6 +13,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet to handle HTTP request and route them to appropriate callback
+ * function.
+ */
 public class RequestHandlingServlet extends HttpServlet {
 
     @Override
@@ -54,6 +58,14 @@ public class RequestHandlingServlet extends HttpServlet {
         executeCallback(req, resp, callback);
     }
 
+    /**
+     * Common function to execute callback
+     * 
+     * @param req      The user request
+     * @param resp     The user response
+     * @param callback Callback function
+     * @throws IOException
+     */
     private void executeCallback(HttpServletRequest req, HttpServletResponse resp, RequestCallback callback)
             throws IOException {
 
