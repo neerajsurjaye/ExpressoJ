@@ -1,6 +1,6 @@
 package com.spec.web.expresso.router;
 
-public interface Router {
+public interface IRouter {
 
     /**
      * Returns mappings for Http get requests.

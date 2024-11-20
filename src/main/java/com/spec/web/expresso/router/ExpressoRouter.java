@@ -3,7 +3,7 @@ package com.spec.web.expresso.router;
 /**
  * The class maps http methods and path to user defined callbacks.
  */
-public class ExpressoRouter implements Router {
+public class ExpressoRouter implements IRouter {
 
     // ** Stores path mappings of http get request method */
     private Mappings httpGetMapping;
