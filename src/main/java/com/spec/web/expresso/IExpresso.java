@@ -1,6 +1,6 @@
 package com.spec.web.expresso;
 
-import com.spec.web.expresso.callback.RequestCallback;
+import com.spec.web.expresso.middleware.RequestCallback;
 
 /*
  * Provides the user facing methods.

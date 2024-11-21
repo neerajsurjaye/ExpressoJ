@@ -1,6 +1,6 @@
 package com.spec.web.expresso;
 
-import com.spec.web.expresso.callback.RequestCallback;
+import com.spec.web.expresso.middleware.RequestCallback;
 import com.spec.web.expresso.router.ExpressoRouter;
 import com.spec.web.expresso.servlet.RequestHandlingServlet;
 

@@ -1,4 +1,4 @@
-package com.spec.web.expresso.callback;
+package com.spec.web.expresso.middleware;
 
 /**
  * The class instance is used to decide if the next middleware function in the

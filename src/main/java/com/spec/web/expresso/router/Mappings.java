@@ -2,7 +2,7 @@ package com.spec.web.expresso.router;
 
 import java.util.HashMap;
 
-import com.spec.web.expresso.callback.RequestCallback;
+import com.spec.web.expresso.middleware.RequestCallback;
 
 /**
  * The class maps url paths to user defined functions.

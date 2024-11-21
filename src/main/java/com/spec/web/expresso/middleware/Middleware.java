@@ -1,4 +1,4 @@
-package com.spec.web.expresso.callback;
+package com.spec.web.expresso.middleware;
 
 import com.spec.web.expresso.message.HttpRequest;
 import com.spec.web.expresso.message.HttpResponse;
