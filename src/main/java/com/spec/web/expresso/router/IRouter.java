@@ -1,5 +1,9 @@
 package com.spec.web.expresso.router;
 
+/**
+ * @deprecated
+ */
+@Deprecated
 public interface IRouter {
 
     /**
