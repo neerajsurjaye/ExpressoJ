@@ -8,5 +8,6 @@ public class Methods {
     }
 
     public static final String METHOD_USE = "USE";
+    public static final String METHOD_GET = "GET";
 
 }

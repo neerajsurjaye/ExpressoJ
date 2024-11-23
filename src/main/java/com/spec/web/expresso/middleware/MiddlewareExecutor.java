@@ -1,9 +1,12 @@
 package com.spec.web.expresso.middleware;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Queue;
 
+import com.spec.web.expresso.constants.Methods;
 import com.spec.web.expresso.message.HttpRequest;
 import com.spec.web.expresso.message.HttpResponse;
 
@@ -13,34 +16,33 @@ import com.spec.web.expresso.message.HttpResponse;
  */
 public class MiddlewareExecutor {
 
-    Queue<Middleware> middlewareQueue;
-    // The next caller
+    List<MiddlewareMetaData> middlewareList;
 
     /**
      * Constructs a instance of the class
      */
     public MiddlewareExecutor() {
-        middlewareQueue = new LinkedList<>();
+        middlewareList = new LinkedList<>();
     }
 
     /**
      * Creates an instance with a single middleware.
      * 
-     * @param middleware the middlware function that needs to be called
+     * @param middlewareMetadata the middlware function that needs to be called
      */
-    public MiddlewareExecutor(Middleware middleware) {
-        middlewareQueue = new LinkedList<>();
-        middlewareQueue.add(middleware);
+    public MiddlewareExecutor(MiddlewareMetaData middlewareMetadata) {
+        middlewareList = new LinkedList<>();
+        middlewareList.add(middlewareMetadata);
     }
 
     /**
      * Creates and instance with a list of middlewares
      * 
-     * @param middlewares List of middlewares to add
+     * @param middlewaresMetadata List of middlewares to add
      */
-    public MiddlewareExecutor(List<Middleware> middlewares) {
-        middlewareQueue = new LinkedList<>();
-        middlewareQueue.addAll(middlewares);
+    public MiddlewareExecutor(List<MiddlewareMetaData> middlewaresMetadata) {
+        middlewareList = new LinkedList<>();
+        middlewareList.addAll(middlewaresMetadata);
     }
 
     /**
@@ -50,21 +52,27 @@ public class MiddlewareExecutor {
      * @param req The Http request object
      * @param res The Http response object
      */
-    public void execute(HttpRequest req, HttpResponse res) {
+    public void execute(HttpRequest req, HttpResponse res, String path, String method) {
 
         MiddlewareFlowController mfc = new MiddlewareFlowController();
 
-        while (mfc.isFlowAllowed() && !middlewareQueue.isEmpty()) {
+        Iterator<MiddlewareMetaData> iter = middlewareList.iterator();
 
-            /**
-             * Resets the flow controller. If flow controller state is set to true in the
-             * iteration the loop will run again
-             */
-            mfc.reset();
-            Middleware currentMiddleware = middlewareQueue.poll();
-            currentMiddleware.execute(req, res, mfc);
+        while (iter.hasNext() && mfc.isFlowAllowed()) {
+            MiddlewareMetaData currMiddlewareMeta = iter.next();
+
+            String middlewarePath = currMiddlewareMeta.getPath();
+            String middlewareMethod = currMiddlewareMeta.getMethod();
+
+            if ((middlewarePath.equals(path) || middlewarePath.equals(""))
+                    &&
+                    (middlewareMethod.equals(method) || middlewareMethod.equals(Methods.METHOD_USE))) {
+                mfc.reset();
+                currMiddlewareMeta.getMiddleware().execute(req, res, mfc);
+            }
 
         }
+
     }
 
 }

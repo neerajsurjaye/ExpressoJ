@@ -7,8 +7,6 @@ import com.spec.web.expresso.middleware.MiddlewareMetaData;
 
 public interface IPathRouter {
 
-    void appendMiddlewareMetaData(MiddlewareMetaData middlewareMetaData);
-
     void use(Middleware middleware, Middleware... additionalMiddleware);
 
     void use(String path, Middleware middleware, Middleware... additionalMiddleware);
@@ -19,6 +17,6 @@ public interface IPathRouter {
 
     IPathRouter registerRouterOnPath(String path);
 
-    List<MiddlewareMetaData> getMiddlewaresAsList();
+    List<MiddlewareMetaData> getMiddlewareMetadataAsList();
 
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.spec.web.expresso.constants.Methods;
+import com.spec.web.expresso.message.HttpRequest;
+import com.spec.web.expresso.message.HttpResponse;
 import com.spec.web.expresso.middleware.Middleware;
 import com.spec.web.expresso.middleware.MiddlewareMetaData;
 
@@ -16,18 +18,17 @@ import com.spec.web.expresso.middleware.MiddlewareMetaData;
  */
 public class PathRouter implements IPathRouter {
 
-    List<MiddlewareMetaData> middleWares;
+    protected List<MiddlewareMetaData> middleWares;
 
-    PathRouter() {
+    public PathRouter() {
         middleWares = new ArrayList<>();
     }
 
-    PathRouter(List<MiddlewareMetaData> middleWares) {
+    private PathRouter(List<MiddlewareMetaData> middleWares) {
         this.middleWares = middleWares;
     }
 
     /** Appends a already constructed middleware metadata object to the list */
-    @Override
     public void appendMiddlewareMetaData(MiddlewareMetaData middlewareMetaData) {
         middleWares.add(middlewareMetaData);
     }
@@ -67,10 +68,10 @@ public class PathRouter implements IPathRouter {
     /** Adds the middlewares of the routers to the current list of middlewares */
     @Override
     public void use(IPathRouter router, IPathRouter... additionalRouters) {
-        middleWares.addAll(router.getMiddlewaresAsList());
+        middleWares.addAll(router.getMiddlewareMetadataAsList());
 
         for (IPathRouter currRouter : additionalRouters) {
-            middleWares.addAll(currRouter.getMiddlewaresAsList());
+            middleWares.addAll(currRouter.getMiddlewareMetadataAsList());
         }
 
     }
@@ -83,11 +84,11 @@ public class PathRouter implements IPathRouter {
     public void use(String path, IPathRouter router, IPathRouter... addRouters) {
 
         IPathRouter firstRouterCopy = router.registerRouterOnPath(path);
-        this.middleWares.addAll(firstRouterCopy.getMiddlewaresAsList());
+        this.middleWares.addAll(firstRouterCopy.getMiddlewareMetadataAsList());
 
         for (IPathRouter currentRouter : addRouters) {
             IPathRouter copyOfCurrentRouter = currentRouter.registerRouterOnPath(path);
-            this.middleWares.addAll(copyOfCurrentRouter.getMiddlewaresAsList());
+            this.middleWares.addAll(copyOfCurrentRouter.getMiddlewareMetadataAsList());
         }
 
     }
@@ -110,6 +111,7 @@ public class PathRouter implements IPathRouter {
         }
 
         IPathRouter copyofPathRouter = new PathRouter(copyofMiddlewares);
+        System.out.println("Registering router on path : " + copyofMiddlewares);
         return copyofPathRouter;
     }
 
@@ -118,9 +120,11 @@ public class PathRouter implements IPathRouter {
      * 
      * Returns new Arraylist as we dont want to accidently modify the original
      * internal list.
+     * 
+     * todo: it should make a copy
      */
     @Override
-    public List<MiddlewareMetaData> getMiddlewaresAsList() {
+    public List<MiddlewareMetaData> getMiddlewareMetadataAsList() {
         return new ArrayList<>(middleWares);
     }
 
