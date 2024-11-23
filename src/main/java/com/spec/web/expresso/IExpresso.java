@@ -2,9 +2,12 @@ package com.spec.web.expresso;
 
 import com.spec.web.expresso.middleware.RequestCallback;
 
-/*
+/**
  * Provides the user facing methods.
+ * 
+ * @deprecated replaced by Path router
  */
+@Deprecated
 public interface IExpresso {
 
     /**
