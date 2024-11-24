@@ -37,15 +37,19 @@ public class PathRouter implements IPathRouter {
     @Override
     public void use(Middleware middleware, Middleware... additionalMiddleware) {
 
-        /** Adds the first middleware to the list */
-        MiddlewareMetaData currMiddlewareMeta = new MiddlewareMetaData(middleware, Methods.METHOD_USE);
-        middleWares.add(currMiddlewareMeta);
+        // /** Adds the first middleware to the list */
+        // MiddlewareMetaData currMiddlewareMeta = new MiddlewareMetaData(middleware,
+        // Methods.METHOD_USE);
+        // middleWares.add(currMiddlewareMeta);
 
-        /** Adds the rest of middlewares to the list */
-        for (Middleware addMiddlewareIterVal : additionalMiddleware) {
-            currMiddlewareMeta = new MiddlewareMetaData(addMiddlewareIterVal, Methods.METHOD_USE);
-            middleWares.add(currMiddlewareMeta);
-        }
+        // /** Adds the rest of middlewares to the list */
+        // for (Middleware addMiddlewareIterVal : additionalMiddleware) {
+        // currMiddlewareMeta = new MiddlewareMetaData(addMiddlewareIterVal,
+        // Methods.METHOD_USE);
+        // middleWares.add(currMiddlewareMeta);
+        // }
+
+        addMiddlewares(null, Methods.METHOD_USE, middleware, additionalMiddleware);
 
     }
 
@@ -53,16 +57,46 @@ public class PathRouter implements IPathRouter {
     @Override
     public void use(String path, Middleware middleware, Middleware... additionalMiddleware) {
 
-        /** Adds the first middleware to the list with their path */
-        MiddlewareMetaData currMiddlewareMeta = new MiddlewareMetaData(middleware, path, Methods.METHOD_USE);
-        middleWares.add(currMiddlewareMeta);
+        // /** Adds the first middleware to the list with their path */
+        // MiddlewareMetaData currMiddlewareMeta = new MiddlewareMetaData(middleware,
+        // path, Methods.METHOD_USE);
+        // middleWares.add(currMiddlewareMeta);
 
-        /** Adds the rest of middlewares to the list with their path */
-        for (Middleware addMiddlewareIterVal : additionalMiddleware) {
-            currMiddlewareMeta = new MiddlewareMetaData(addMiddlewareIterVal, path, Methods.METHOD_USE);
+        // /** Adds the rest of middlewares to the list with their path */
+        // for (Middleware addMiddlewareIterVal : additionalMiddleware) {
+        // currMiddlewareMeta = new MiddlewareMetaData(addMiddlewareIterVal, path,
+        // Methods.METHOD_USE);
+        // middleWares.add(currMiddlewareMeta);
+        // }
+
+        addMiddlewares(path, Methods.METHOD_USE, middleware, additionalMiddleware);
+
+    }
+
+    private void addMiddlewares(String path, String method, Middleware middleware,
+            Middleware... additionalMiddleware) {
+
+        if (path == null) {
+            /** Adds the first middleware to the list */
+            MiddlewareMetaData currMiddlewareMeta = new MiddlewareMetaData(middleware, method);
             middleWares.add(currMiddlewareMeta);
-        }
 
+            /** Adds the rest of middlewares to the list */
+            for (Middleware addMiddlewareIterVal : additionalMiddleware) {
+                currMiddlewareMeta = new MiddlewareMetaData(addMiddlewareIterVal, method);
+                middleWares.add(currMiddlewareMeta);
+            }
+        } else {
+            /** Adds the first middleware to the list with their path */
+            MiddlewareMetaData currMiddlewareMeta = new MiddlewareMetaData(middleware, path, method);
+            middleWares.add(currMiddlewareMeta);
+
+            /** Adds the rest of middlewares to the list with their path */
+            for (Middleware addMiddlewareIterVal : additionalMiddleware) {
+                currMiddlewareMeta = new MiddlewareMetaData(addMiddlewareIterVal, path, method);
+                middleWares.add(currMiddlewareMeta);
+            }
+        }
     }
 
     /** Adds the middlewares of the routers to the current list of middlewares */
@@ -126,6 +160,26 @@ public class PathRouter implements IPathRouter {
     @Override
     public List<MiddlewareMetaData> getMiddlewareMetadataAsList() {
         return new ArrayList<>(middleWares);
+    }
+
+    @Override
+    public void get(String path, Middleware middleware, Middleware... additionalMiddleware) {
+        addMiddlewares(path, Methods.METHOD_GET, middleware, additionalMiddleware);
+    }
+
+    @Override
+    public void post(String path, Middleware middleware, Middleware... additionalMiddleware) {
+        addMiddlewares(path, Methods.METHOD_POST, middleware, additionalMiddleware);
+    }
+
+    @Override
+    public void put(String path, Middleware middleware, Middleware... additionalMiddleware) {
+        addMiddlewares(path, Methods.METHOD_PUT, middleware, additionalMiddleware);
+    }
+
+    @Override
+    public void delete(String path, Middleware middleware, Middleware... additionalMiddleware) {
+        addMiddlewares(path, Methods.METHOD_DELETE, middleware, additionalMiddleware);
     }
 
 }

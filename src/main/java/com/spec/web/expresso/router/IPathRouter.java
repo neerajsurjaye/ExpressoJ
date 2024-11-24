@@ -15,6 +15,14 @@ public interface IPathRouter {
 
     void use(String path, IPathRouter router, IPathRouter... addRouters);
 
+    void get(String path, Middleware middleware, Middleware... additionalMiddleware);
+
+    void post(String path, Middleware middleware, Middleware... additionalMiddleware);
+
+    void put(String path, Middleware middleware, Middleware... additionalMiddleware);
+
+    void delete(String path, Middleware middleware, Middleware... additionalMiddleware);
+
     IPathRouter registerRouterOnPath(String path);
 
     List<MiddlewareMetaData> getMiddlewareMetadataAsList();
