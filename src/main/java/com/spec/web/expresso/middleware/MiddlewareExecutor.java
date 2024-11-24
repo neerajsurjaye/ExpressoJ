@@ -3,9 +3,6 @@ package com.spec.web.expresso.middleware;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Queue;
-
 import com.spec.web.expresso.constants.Methods;
 import com.spec.web.expresso.message.HttpRequest;
 import com.spec.web.expresso.message.HttpResponse;
@@ -16,6 +13,7 @@ import com.spec.web.expresso.message.HttpResponse;
  */
 public class MiddlewareExecutor {
 
+    /** Holds all the middlewareMetadata */
     List<MiddlewareMetaData> middlewareList;
 
     /**
@@ -61,17 +59,23 @@ public class MiddlewareExecutor {
         while (iter.hasNext() && mfc.isFlowAllowed()) {
             MiddlewareMetaData currMiddlewareMeta = iter.next();
 
-            String middlewarePath = currMiddlewareMeta.getPath();
-            String middlewareMethod = currMiddlewareMeta.getMethod();
-
-            if ((middlewarePath.equals(path) || middlewarePath.equals(""))
-                    &&
-                    (middlewareMethod.equals(method) || middlewareMethod.equals(Methods.METHOD_USE))) {
+            if (matchPath(path, method, currMiddlewareMeta)) {
                 mfc.reset();
                 currMiddlewareMeta.getMiddleware().execute(req, res, mfc);
             }
 
         }
+
+    }
+
+    /** Matches the path with method on a middlewareMetada */
+    private boolean matchPath(String path, String method, MiddlewareMetaData middlewareMetaData) {
+
+        String middlewarePath = middlewareMetaData.getPath();
+        String middlewareMethod = middlewareMetaData.getMethod();
+
+        return (middlewarePath.equals(path) || middlewarePath.equals("")) &&
+                (middlewareMethod.equals(method) || middlewareMethod.equals(Methods.METHOD_USE));
 
     }
 

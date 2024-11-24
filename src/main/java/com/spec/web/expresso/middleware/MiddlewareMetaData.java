@@ -47,6 +47,7 @@ public class MiddlewareMetaData {
         calcPath();
     }
 
+    /** Instantaiats the class */
     private MiddlewareMetaData(Middleware middleware, String path, StringBuilder pathBuilder, String method) {
         this.middleware = middleware;
         this.pathBuilder = new StringBuilder(pathBuilder);

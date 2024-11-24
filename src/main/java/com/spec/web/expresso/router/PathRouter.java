@@ -37,18 +37,6 @@ public class PathRouter implements IPathRouter {
     @Override
     public void use(Middleware middleware, Middleware... additionalMiddleware) {
 
-        // /** Adds the first middleware to the list */
-        // MiddlewareMetaData currMiddlewareMeta = new MiddlewareMetaData(middleware,
-        // Methods.METHOD_USE);
-        // middleWares.add(currMiddlewareMeta);
-
-        // /** Adds the rest of middlewares to the list */
-        // for (Middleware addMiddlewareIterVal : additionalMiddleware) {
-        // currMiddlewareMeta = new MiddlewareMetaData(addMiddlewareIterVal,
-        // Methods.METHOD_USE);
-        // middleWares.add(currMiddlewareMeta);
-        // }
-
         addMiddlewares(null, Methods.METHOD_USE, middleware, additionalMiddleware);
 
     }
@@ -57,20 +45,7 @@ public class PathRouter implements IPathRouter {
     @Override
     public void use(String path, Middleware middleware, Middleware... additionalMiddleware) {
 
-        // /** Adds the first middleware to the list with their path */
-        // MiddlewareMetaData currMiddlewareMeta = new MiddlewareMetaData(middleware,
-        // path, Methods.METHOD_USE);
-        // middleWares.add(currMiddlewareMeta);
-
-        // /** Adds the rest of middlewares to the list with their path */
-        // for (Middleware addMiddlewareIterVal : additionalMiddleware) {
-        // currMiddlewareMeta = new MiddlewareMetaData(addMiddlewareIterVal, path,
-        // Methods.METHOD_USE);
-        // middleWares.add(currMiddlewareMeta);
-        // }
-
         addMiddlewares(path, Methods.METHOD_USE, middleware, additionalMiddleware);
-
     }
 
     private void addMiddlewares(String path, String method, Middleware middleware,

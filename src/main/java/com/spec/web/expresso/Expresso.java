@@ -10,7 +10,7 @@ import io.undertow.servlet.api.DeploymentManager;
 import lombok.Getter;
 
 /**
- * 
+ * The class the user will instantiate to work with the following framework.
  */
 public class Expresso extends PathRouter {
 
