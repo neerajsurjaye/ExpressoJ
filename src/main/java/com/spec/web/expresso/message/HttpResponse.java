@@ -26,7 +26,7 @@ public class HttpResponse implements Response {
      * @param response The response send to the client.
      */
     @Override
-    public HttpResponse setResponse(String response) {
+    public HttpResponse writeResponse(String response) {
 
         try {
             resp.getWriter().write(response);

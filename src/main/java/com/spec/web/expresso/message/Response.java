@@ -10,7 +10,7 @@ public interface Response {
      * 
      * @param response the response body
      */
-    HttpResponse setResponse(String response);
+    HttpResponse writeResponse(String response);
 
     /**
      * Sets the status code of the response.
