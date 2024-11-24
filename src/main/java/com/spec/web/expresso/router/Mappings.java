@@ -6,7 +6,10 @@ import com.spec.web.expresso.middleware.RequestCallback;
 
 /**
  * The class maps url paths to user defined functions.
+ * 
+ * @deprecated replaced by path router
  */
+@Deprecated
 public class Mappings {
 
     /** Stores the mappings between paths and their functions */

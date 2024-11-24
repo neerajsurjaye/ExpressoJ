@@ -2,7 +2,10 @@ package com.spec.web.expresso.router;
 
 /**
  * The class maps http methods and path to user defined callbacks.
+ * 
+ * @deprecated replaced by pathRouter
  */
+@Deprecated
 public class ExpressoRouter implements IRouter {
 
     // ** Stores path mappings of http get request method */

@@ -1,7 +1,6 @@
 package com.spec.web.expresso;
 
-import com.spec.web.expresso.middleware.RequestCallback;
-import com.spec.web.expresso.router.ExpressoRouter;
+import com.spec.web.expresso.router.PathRouter;
 import com.spec.web.expresso.servlet.RequestHandlingServlet;
 
 import io.undertow.Undertow;
@@ -11,11 +10,9 @@ import io.undertow.servlet.api.DeploymentManager;
 import lombok.Getter;
 
 /**
- * Represnts expresso the web framework.
- * 
- * The Class is singleton only one object will exist for the whole program.
+ * The class the user will instantiate to work with the following framework.
  */
-public class Expresso implements IExpresso {
+public class Expresso extends PathRouter {
 
     /** The single object that will exist for the whole program. */
     @Getter
@@ -26,13 +23,16 @@ public class Expresso implements IExpresso {
     /** used by undertow */
     private static DeploymentManager manager = null;
 
-    /** Router object for managing http routes */
-    @Getter
-    private static ExpressoRouter expressoRouter = null;
+    /** The network port on which the server should run on */
+    private int port = 8080;
 
     /** Private constructor for singleton pattern */
     private Expresso() {
 
+    }
+
+    public void _log_Metadata() {
+        System.out.println(super.middleWares);
     }
 
     /**
@@ -43,8 +43,6 @@ public class Expresso implements IExpresso {
      * @return returns the singleton instance of expresso
      */
     public static Expresso init() {
-
-        expressoRouter = new ExpressoRouter();
 
         // todo: Understand what exactly is happening here
         DeploymentInfo serverBuilder = Servlets.deployment()
@@ -64,59 +62,21 @@ public class Expresso implements IExpresso {
     }
 
     /**
-     * Creates get mappings for a user defined callback
-     * 
-     * @param path     defines the http path
-     * @param callback the user defined callback
-     */
-    @Override
-    public void get(String path, RequestCallback callback) {
-        expressoRouter.getHttpGetMappings().addPath(path, callback);
-    }
-
-    /**
-     * Creates post mappings for a user defined callback
-     * 
-     * @param path     defines the http path
-     * @param callback the user defined callback
-     */
-    @Override
-    public void post(String path, RequestCallback callback) {
-        expressoRouter.getHttpPostMappings().addPath(path, callback);
-    }
-
-    /**
-     * Creates put mappings for a user defined callback
-     * 
-     * @param path     defines the http path
-     * @param callback the user defined callback
-     */
-    @Override
-    public void put(String path, RequestCallback callback) {
-        expressoRouter.getHttpPutMappings().addPath(path, callback);
-    }
-
-    /**
-     * Creates delete mappings for a user defined callback
-     * 
-     * @param path     defines the http path
-     * @param callback the user defined callback
-     */
-    @Override
-    public void delete(String path, RequestCallback callback) {
-        expressoRouter.getHttpDeleteMappings().addPath(path, callback);
-    }
-
-    /**
      * Starts the server over a network port.
      * 
      * @param port the port number on which the class should listen.
      */
-    @Override
     public void listen(int port) {
+        this.port = port;
+    }
+
+    /**
+     * Starts the server
+     */
+    public void start() {
         try {
             server = Undertow.builder()
-                    .addHttpListener(port, "0.0.0.0")
+                    .addHttpListener(this.port, "0.0.0.0")
                     .setHandler(manager.start())
                     .build();
             server.start();
