@@ -38,7 +38,7 @@ public interface IPathRouter {
      */
     IPathRouter registerRouterOnPath(String path);
 
-    /** Returns all the middlewares */
+    /** Returns all the middlewares registerd on the current router */
     List<MiddlewareMetaData> getMiddlewareMetadataAsList();
 
 }
