@@ -7,7 +7,6 @@ import com.spec.web.expresso.constants.Methods;
 import com.spec.web.expresso.message.HttpRequest;
 import com.spec.web.expresso.message.HttpResponse;
 import com.spec.web.expresso.middleware.MiddlewareExecutor;
-import com.spec.web.expresso.middleware.RequestCallback;
 import com.spec.web.expresso.router.PathRouter;
 
 import jakarta.servlet.ServletException;
@@ -59,32 +58,6 @@ public class RequestHandlingServlet extends HttpServlet {
         String path = req.getPathInfo();
 
         executor.execute(request, response, path, method);
-    }
-
-    /**
-     * Common function to execute callback
-     * 
-     * @param req      The user request
-     * @param resp     The user response
-     * @param callback Callback function
-     * @throws IOException
-     * 
-     * @Deprecated
-     */
-    private void executeCallback(HttpServletRequest req, HttpServletResponse resp, RequestCallback callback)
-            throws IOException {
-
-        if (callback == null) {
-            resp.setStatus(404);
-            resp.getWriter().println("Path Not found");
-            return;
-        }
-
-        HttpRequest request = new HttpRequest(req);
-        HttpResponse response = new HttpResponse(resp);
-
-        callback.execute(request, response);
-
     }
 
 }
