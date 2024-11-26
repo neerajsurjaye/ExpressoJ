@@ -34,4 +34,21 @@ public interface Response {
      */
     HttpResponse setContentTypeHeader(String contentType);
 
+    /**
+     * Sends html response
+     * 
+     * @param Html The html response to send
+     * @return
+     */
+    HttpResponse setHtml(String html);
+
+    /**
+     * Resets the response
+     */
+    HttpResponse resetResponse();
+
+    /**
+     * Resets the body of the response
+     */
+    HttpResponse resetResponseBody();
 }

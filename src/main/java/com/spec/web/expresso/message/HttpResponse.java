@@ -77,4 +77,43 @@ public class HttpResponse implements Response {
         return this;
     }
 
+    /**
+     * Sends html
+     * 
+     * Note: Resets any data present in response object
+     */
+    @Override
+    public HttpResponse setHtml(String html) {
+
+        this.resetResponseBody();
+        this.setContentTypeHeader("text/html");
+        this.writeResponse(html);
+        return this;
+    }
+
+    /**
+     * Resets the response object
+     */
+    @Override
+    public HttpResponse resetResponse() {
+        this.resp.reset();
+        return this;
+    }
+
+    /**
+     * resturns the raw http servlet response
+     * 
+     * @return current http servlet response
+     */
+    public HttpServletResponse getRawHttpServletResponse() {
+        return this.resp;
+    }
+
+    /** Resets the body of the response */
+    @Override
+    public HttpResponse resetResponseBody() {
+        this.resp.resetBuffer();
+        return this;
+    }
+
 }
