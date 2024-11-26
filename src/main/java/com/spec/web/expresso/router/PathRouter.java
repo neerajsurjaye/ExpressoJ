@@ -157,4 +157,13 @@ public class PathRouter implements IPathRouter {
     public List<MiddlewareMetaData> getMiddlewareMetadataAsList() {
         return new ArrayList<>(middleWares);
     }
+
+    /**
+     * Registers a middleware metadata
+     * Todo: should register multiple middlewares
+     */
+    @Override
+    public void use(String path, MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas) {
+
+    }
 }
