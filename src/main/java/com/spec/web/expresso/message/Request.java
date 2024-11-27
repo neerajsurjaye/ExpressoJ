@@ -18,4 +18,10 @@ public interface Request {
      */
     String body() throws IOException;
 
+
+    String getParams(String name);
+
+    String getQuery(String name);
+
+
 }
