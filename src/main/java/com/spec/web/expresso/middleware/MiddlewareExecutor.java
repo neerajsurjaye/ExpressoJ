@@ -59,7 +59,8 @@ public class MiddlewareExecutor {
         while (iter.hasNext() && mfc.isFlowAllowed()) {
             MiddlewareMetaData currMiddlewareMeta = iter.next();
 
-            if (matchPath(path, method, currMiddlewareMeta)) {
+            if (matchExactPath(path, method, currMiddlewareMeta)
+                    || matchPathPattern(path, method, currMiddlewareMeta)) {
                 mfc.reset();
                 currMiddlewareMeta.getMiddleware().execute(req, res, mfc);
             }
@@ -68,8 +69,8 @@ public class MiddlewareExecutor {
 
     }
 
-    /** Matches the path with method on a middlewareMetada */
-    private boolean matchPath(String path, String method, MiddlewareMetaData middlewareMetaData) {
+    /** Matches the exact path with method on a middlewareMetada */
+    private boolean matchExactPath(String path, String method, MiddlewareMetaData middlewareMetaData) {
 
         String middlewarePath = middlewareMetaData.getPath();
         String middlewareMethod = middlewareMetaData.getMethod();
@@ -77,6 +78,42 @@ public class MiddlewareExecutor {
         return (middlewarePath.equals(path) || middlewarePath.equals("")) &&
                 (middlewareMethod.equals(method) || middlewareMethod.equals(Methods.METHOD_USE));
 
+    }
+
+    /**
+     * Matches path pattern
+     * 
+     * TODO: fix method currently only matches //*
+     * Currently runs on any method get , put etc
+     * 
+     * @param path
+     * @param method
+     * @param middlewareMetaData
+     * @return
+     */
+    private boolean matchPathPattern(String path, String method, MiddlewareMetaData middlewareMetaData) {
+
+        // if (path.endsWith("/*")) {
+        // System.out.println("path ends with /*" + path);
+        // path = path.substring(0, path.length() - 1);
+
+        // /* TODO: add check for method */
+        // if (middlewareMetaData.getPath().startsWith(path)) {
+        // return true;
+        // }
+
+        String middlewarePath = middlewareMetaData.getPath();
+        if (middlewarePath.endsWith("/*")) {
+            System.out.println("path ends with /*" + middlewarePath);
+            middlewarePath = middlewarePath.substring(0, middlewarePath.length() - 1);
+
+            System.out.println("Middleware path " + middlewarePath + " url : " + path);
+            if (path.startsWith(middlewarePath)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

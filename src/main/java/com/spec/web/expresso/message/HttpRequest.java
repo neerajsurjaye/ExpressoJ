@@ -80,4 +80,15 @@ public class HttpRequest implements Request {
 
     }
 
+    /**
+     * Retrives the path of the current request url.
+     * 
+     * @return the path of the current request
+     */
+    /** Todo: change name of the method */
+    @Override
+    public String getRequestPath() {
+        return req.getPathInfo();
+    }
+
 }

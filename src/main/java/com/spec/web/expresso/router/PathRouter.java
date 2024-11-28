@@ -164,6 +164,13 @@ public class PathRouter implements IPathRouter {
      */
     @Override
     public void use(String path, MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas) {
+        middlewareMetaData.setPath(path);
+        middleWares.add(middlewareMetaData);
+
+        for (MiddlewareMetaData mmd : middlewareMetaDatas) {
+            mmd.setPath(path);
+            middleWares.add(mmd);
+        }
 
     }
 }
