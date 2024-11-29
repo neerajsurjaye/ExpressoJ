@@ -159,8 +159,7 @@ public class PathRouter implements IPathRouter {
     }
 
     /**
-     * Registers a middleware metadata
-     * Todo: should register multiple middlewares
+     * Registers a middleware metadata while also setting its path on it.
      */
     @Override
     public void use(String path, MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas) {
