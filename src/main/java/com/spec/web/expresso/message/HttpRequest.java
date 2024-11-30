@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import com.google.gson.Gson;
+import com.spec.web.expresso.util.URLParser;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -78,6 +80,33 @@ public class HttpRequest implements Request {
         Gson gson = new Gson();
         return gson.fromJson(reader, type);
 
+    }
+
+    /**
+     * Get the url parameter value against the given name
+     * 
+     * @param name name of the parameter , this name should be same as the name of the parameter mentioned in the url pattern
+     * 
+     * @return value of the parameter
+     */
+    @Override
+    public String getParams(String name) {
+        String urlPattern = ""; // in future get this from the req attribute
+        Map<String, String> urlParameter = URLParser.getPathVariables(urlPattern, req.getPathInfo());
+        return  urlParameter.get(name) != null ? urlParameter.get(name) : "" ;
+    }
+
+
+    /**
+     * Return the query parameter value against the name
+     * 
+     * @param name name of the query parameter
+     * 
+     * @return value of the query parameter
+     */
+    @Override
+    public String getQuery(String name) {
+        return req.getParameter(name);
     }
 
 }
