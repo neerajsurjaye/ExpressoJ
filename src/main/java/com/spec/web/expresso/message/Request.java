@@ -25,4 +25,8 @@ public interface Request {
      */
     String getRequestPath();
 
+    String getParams(String name);
+
+    String getQuery(String name);
+
 }
