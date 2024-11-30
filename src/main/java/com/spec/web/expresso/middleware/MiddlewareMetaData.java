@@ -1,5 +1,8 @@
 package com.spec.web.expresso.middleware;
 
+import com.spec.web.expresso.message.HttpRequest;
+import com.spec.web.expresso.message.HttpResponse;
+
 import lombok.Getter;
 
 public class MiddlewareMetaData {
@@ -85,6 +88,25 @@ public class MiddlewareMetaData {
     @Override
     public String toString() {
         return String.format("{Middleware: %s, path: %s, method: %s}%n", middleware, path, method);
+    }
+
+    /** Sets the path */
+    public void setPath(String pathString) {
+        this.pathBuilder = new StringBuilder(pathBuilder);
+        this.path = pathString;
+    }
+
+    /**
+     * Executes the middleware contained by the instance of MiddlewareMetaDaa
+     * 
+     * @param req  HttpRequest
+     * @param res  HttpResponse
+     * @param next MiddlewareFlowController
+     */
+    // Todo: remove older implementation
+    // MiddlewareMetadata.getMiddleware().execute()
+    public void execute(HttpRequest req, HttpResponse res, MiddlewareFlowController next) {
+        this.middleware.execute(req, res, next);
     }
 
 }

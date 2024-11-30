@@ -157,4 +157,19 @@ public class PathRouter implements IPathRouter {
     public List<MiddlewareMetaData> getMiddlewareMetadataAsList() {
         return new ArrayList<>(middleWares);
     }
+
+    /**
+     * Registers a middleware metadata while also setting its path on it.
+     */
+    @Override
+    public void use(String path, MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas) {
+        middlewareMetaData.setPath(path);
+        middleWares.add(middlewareMetaData);
+
+        for (MiddlewareMetaData mmd : middlewareMetaDatas) {
+            mmd.setPath(path);
+            middleWares.add(mmd);
+        }
+
+    }
 }

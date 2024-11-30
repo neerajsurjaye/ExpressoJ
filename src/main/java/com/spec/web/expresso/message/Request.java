@@ -18,10 +18,15 @@ public interface Request {
      */
     String body() throws IOException;
 
+    /**
+     * Retrives the path of the current request url.
+     * 
+     * @return the path of the current request
+     */
+    String getRequestPath();
 
     String getParams(String name);
 
     String getQuery(String name);
-
 
 }

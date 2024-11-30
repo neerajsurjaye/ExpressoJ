@@ -20,6 +20,9 @@ public interface IPathRouter {
     /** Middleware wiil execute regardless of HTTP method */
     void use(String path, IPathRouter router, IPathRouter... addRouters);
 
+    /** Middleware will register a middlewareMetadata */
+    void use(String path, MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas);
+
     /** Middleware wiil execute on HTTP GET method */
     void get(String path, Middleware middleware, Middleware... additionalMiddleware);
 

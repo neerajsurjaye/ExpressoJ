@@ -83,9 +83,21 @@ public class HttpRequest implements Request {
     }
 
     /**
+     * Retrives the path of the current request url.
+     * 
+     * @return the path of the current request
+     */
+    /** Todo: change name of the method */
+    @Override
+    public String getRequestPath() {
+        return req.getPathInfo();
+    }
+
+    /*
      * Get the url parameter value against the given name
      * 
-     * @param name name of the parameter , this name should be same as the name of the parameter mentioned in the url pattern
+     * @param name name of the parameter , this name should be same as the name of
+     * the parameter mentioned in the url pattern
      * 
      * @return value of the parameter
      */
@@ -93,9 +105,8 @@ public class HttpRequest implements Request {
     public String getParams(String name) {
         String urlPattern = ""; // in future get this from the req attribute
         Map<String, String> urlParameter = URLParser.getPathVariables(urlPattern, req.getPathInfo());
-        return  urlParameter.get(name) != null ? urlParameter.get(name) : "" ;
+        return urlParameter.get(name) != null ? urlParameter.get(name) : "";
     }
-
 
     /**
      * Return the query parameter value against the name
