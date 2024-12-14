@@ -5,7 +5,7 @@ import com.spec.web.expresso.message.HttpResponse;
 
 /**
  * The following functional interface will act as a middleware.
- * Where it accepts three parameters req, res and next() where
+ * Where it accepts three parameters req, res and next().
  */
 @FunctionalInterface
 public interface Middleware {

@@ -8,7 +8,14 @@
 
     <groupId>com.spec.web</groupId>
     <artifactId>expressoj</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/neerajsurjaye/ExpressoJ</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
