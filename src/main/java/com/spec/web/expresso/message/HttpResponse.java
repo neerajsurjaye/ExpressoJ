@@ -13,6 +13,7 @@ public class HttpResponse implements Response {
     HttpServletResponse resp;
 
     /**
+     * Constructs an instance of this class
      * 
      * @param resp HttpServletResponse to wrap
      */
@@ -24,6 +25,7 @@ public class HttpResponse implements Response {
      * Set the http response body
      * 
      * @param response The response send to the client.
+     * @return returns the current class instance for method chaining.
      */
     @Override
     public HttpResponse writeResponse(String response) {
@@ -47,6 +49,7 @@ public class HttpResponse implements Response {
      * Set the Http status code of the response
      * 
      * @param statusCode The status code of the message
+     * @return returns the current class instance for method chaining.
      */
     @Override
     public HttpResponse setStatusCode(Integer statusCode) {
@@ -57,8 +60,9 @@ public class HttpResponse implements Response {
     /**
      * Sets the Http response headers
      * 
-     * @param name the name of the header
-     * @param vaue the value of the header
+     * @param name  the name of the header
+     * @param value the value of the header
+     * @return returns the current class instance for method chaining.
      */
     @Override
     public HttpResponse setResponseHeader(String name, String value) {
@@ -70,6 +74,7 @@ public class HttpResponse implements Response {
      * Sets the content type header
      * 
      * @param contentType the content type the message body is made of
+     * @return returns the current class instance for method chaining.
      */
     @Override
     public HttpResponse setContentTypeHeader(String contentType) {
@@ -81,6 +86,8 @@ public class HttpResponse implements Response {
      * Sends html
      * 
      * Note: Resets any data present in response object
+     * 
+     * @return returns the current class instance for method chaining.
      */
     @Override
     public HttpResponse setHtml(String html) {
@@ -93,6 +100,8 @@ public class HttpResponse implements Response {
 
     /**
      * Resets the response object
+     * 
+     * @return returns the current class instance for method chaining.
      */
     @Override
     public HttpResponse resetResponse() {
@@ -109,7 +118,11 @@ public class HttpResponse implements Response {
         return this.resp;
     }
 
-    /** Resets the body of the response */
+    /**
+     * Resets the body of the response
+     * 
+     * @return returns the current class instance for method chaining.
+     */
     @Override
     public HttpResponse resetResponseBody() {
         this.resp.resetBuffer();

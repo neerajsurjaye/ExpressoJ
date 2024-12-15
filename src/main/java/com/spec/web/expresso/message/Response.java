@@ -9,46 +9,54 @@ public interface Response {
      * Sets the http response body
      * 
      * @param response the response body
+     * @return returns the current class instance for method chaining.
      */
-    HttpResponse writeResponse(String response);
+    Response writeResponse(String response);
 
     /**
      * Sets the status code of the response.
      * 
      * @param statusCode http staus code ex: 200, 404
+     * @return returns the current class instance for method chaining.
      */
-    HttpResponse setStatusCode(Integer statusCode);
+    Response setStatusCode(Integer statusCode);
 
     /**
      * Sets the response headers.
      * 
      * @param name  the name of the header
      * @param value the value of the header
+     * @return returns the current class instance for method chaining.
      */
-    HttpResponse setResponseHeader(String name, String value);
+    Response setResponseHeader(String name, String value);
 
     /**
      * Sets the content type header
      * 
      * @param contentType the content type the message body is made of
+     * @return returns the current class instance for method chaining.
      */
-    HttpResponse setContentTypeHeader(String contentType);
+    Response setContentTypeHeader(String contentType);
 
     /**
      * Sends html response
      * 
-     * @param Html The html response to send
-     * @return
+     * @param html The html response to send
+     * @return returns the current class instance for method chaining.
      */
-    HttpResponse setHtml(String html);
+    Response setHtml(String html);
 
     /**
      * Resets the response
+     * 
+     * @return returns the current class instance for method chaining.
      */
-    HttpResponse resetResponse();
+    Response resetResponse();
 
     /**
      * Resets the body of the response
+     * 
+     * @return returns the current class instance for method chaining.
      */
-    HttpResponse resetResponseBody();
+    Response resetResponseBody();
 }

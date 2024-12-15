@@ -47,8 +47,10 @@ public class MiddlewareExecutor {
      * The following method will execute request and response on the defined
      * middleware list.
      * 
-     * @param req The Http request object
-     * @param res The Http response object
+     * @param req    The Http request object
+     * @param res    The Http response object
+     * @param path   The path on which the exector is currently working.
+     * @param method The http method on which the executor is currently working.
      */
     public void execute(HttpRequest req, HttpResponse res, String path, String method) {
 

@@ -21,6 +21,14 @@ import jakarta.servlet.http.HttpServletResponse;
 // todo: handle executecallback exceptions
 public class RequestHandlingServlet extends HttpServlet {
 
+    /**
+     * Default constructor. Instantiates the class and then delegates to parent
+     * constructor.
+     */
+    public RequestHandlingServlet() {
+        super();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         executeMiddlwares(req, resp, Methods.METHOD_GET);
