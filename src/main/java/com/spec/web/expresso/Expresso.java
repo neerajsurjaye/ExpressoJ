@@ -32,15 +32,6 @@ public class Expresso extends PathRouter {
     }
 
     /**
-     * Used for testing.
-     * Will be removed.
-     * Todo: remove
-     */
-    public void _log_Metadata() {
-        System.out.println(super.middleWares);
-    }
-
-    /**
      * Instantiates the expresso framework.
      * 
      * If instance does not exist. It creates one and returns it.
@@ -49,7 +40,6 @@ public class Expresso extends PathRouter {
      */
     public static Expresso init() {
 
-        // todo: Understand what exactly is happening here
         DeploymentInfo serverBuilder = Servlets.deployment()
                 .setClassLoader(Expresso.class.getClassLoader())
                 .setContextPath("/")

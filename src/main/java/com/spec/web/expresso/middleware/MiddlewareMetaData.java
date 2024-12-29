@@ -2,6 +2,9 @@ package com.spec.web.expresso.middleware;
 
 import lombok.Getter;
 
+/**
+ * Represents the metadata for a middleware.
+ */
 public class MiddlewareMetaData {
 
     /** The middleware that will be encapsulated by this class */
@@ -31,7 +34,12 @@ public class MiddlewareMetaData {
     @Getter
     private String method;
 
-    /** Instantaiats the class */
+    /**
+     * Instantaiats the class
+     * 
+     * @param middleware The middleware on which the metadata should be created.
+     * @param method     The method on which the middleware should be registered.
+     */
     public MiddlewareMetaData(Middleware middleware, String method) {
         this.middleware = middleware;
         this.method = method;
@@ -39,7 +47,13 @@ public class MiddlewareMetaData {
 
     }
 
-    /** Instantaiats the class */
+    /**
+     * Instantaiats the class
+     * 
+     * @param middleware The middleware on which the metadata should be created.
+     * @param path       The path on which the middleware should be registered.
+     * @param method     The method on which the middleware should be registered.
+     */
     public MiddlewareMetaData(Middleware middleware, String path, String method) {
         this.middleware = middleware;
         this.method = method;
@@ -47,7 +61,7 @@ public class MiddlewareMetaData {
         calcPath();
     }
 
-    /** Instantaiats the class */
+    /* Instantaiats the class */
     private MiddlewareMetaData(Middleware middleware, String path, StringBuilder pathBuilder, String method) {
         this.middleware = middleware;
         this.pathBuilder = new StringBuilder(pathBuilder);
@@ -55,19 +69,31 @@ public class MiddlewareMetaData {
         calcPath();
     }
 
-    /** Sets a path for the current middleware */
+    /**
+     * Sets a path for the current middleware
+     * 
+     * @param path the path which should be appended.
+     */
     public void appendPath(String path) {
         this.pathBuilder.append(path);
         calcPath();
     }
 
-    /** Prepends a path to the current path */
+    /**
+     * Prepends a path to the current path
+     * 
+     * @param prefixPath the path which should be prepended.
+     */
     public void addPrefixPath(String prefixPath) {
         this.pathBuilder.insert(0, prefixPath);
         calcPath();
     }
 
-    /** Sets the method on which the middleware should execute */
+    /**
+     * Sets the method on which the middleware should execute
+     * 
+     * @param method the HTTP method on which the metadata should be registered.
+     */
     public void setMethod(String method) {
         this.method = method;
     }
@@ -77,9 +103,13 @@ public class MiddlewareMetaData {
         this.path = pathBuilder.toString();
     }
 
-    /** Creates a copy of the current MiddewareMetaData instance */
+    /**
+     * Creates a copy of the current MiddewareMetaData instance
+     * 
+     * @return the copy of the current class
+     */
     public MiddlewareMetaData copy() {
-        return new MiddlewareMetaData(this.middleware, this.path, this.pathBuilder, this.method);
+        return new MiddlewareMetaData(this.middleware, this.path, new StringBuilder(this.pathBuilder), this.method);
     }
 
     @Override

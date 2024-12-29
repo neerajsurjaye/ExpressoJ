@@ -9,21 +9,22 @@ public class MiddlewareFlowController {
     boolean flag;
 
     /**
-     * 
+     * Instantiates the class.
      */
     public MiddlewareFlowController() {
         flag = true;
     }
 
     /**
-     * Sets the flag to true essentially calling the next middleware
+     * Sets the flag to true. If true the executor will call the next middleware.
      */
     public void next() {
         flag = true;
     }
 
     /**
-     * Sets the flag to false
+     * Sets the current flag to false. The executor will stop calling the next
+     * middlewares.
      */
     public void reset() {
         flag = false;

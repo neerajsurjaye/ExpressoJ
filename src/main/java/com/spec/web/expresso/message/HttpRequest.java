@@ -4,13 +4,15 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import com.google.gson.Gson;
+import com.spec.web.expresso.util.URLParser;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-/*
- * Wrapper class over HttpServletRequest. 
+/**
+ * Wrapper class over HttpServletRequest.
  * Helps in handling of Http request
  */
 public class HttpRequest implements Request {
@@ -20,6 +22,7 @@ public class HttpRequest implements Request {
     private static final int BUFFER_SIZE = 1024;
 
     /**
+     * Constructs an instance of HttpRequest wrapping an HttpServletRequest.
      * 
      * @param req HttpServlet to wrap
      */
@@ -63,7 +66,8 @@ public class HttpRequest implements Request {
      * 
      * it will the object of Myclass
      * 
-     * @throws IOException
+     * @throws IOException May throw and IOException if it get issue reading/parsing
+     *                     the body of request.
      */
     @Override
     public <T> T json(Class<T> type) throws IllegalArgumentException, IOException {
@@ -78,6 +82,34 @@ public class HttpRequest implements Request {
         Gson gson = new Gson();
         return gson.fromJson(reader, type);
 
+    }
+
+    /**
+     * Get the url parameter value against the given name
+     * 
+     * @param name name of the parameter , this name should be same as the name of
+     *             the parameter mentioned in the url pattern
+     * 
+     * @return value of the parameter
+     */
+    @Override
+    public String getParams(String name) {
+        String urlPattern = ""; // in future get this from the req attribute
+        Map<String, String> urlParameter = URLParser.getPathVariables(urlPattern, req.getPathInfo());
+        return urlParameter.get(name) != null ? urlParameter.get(name) : "";
+    }
+
+    /* TODO: Change the names */
+    /**
+     * Return the query parameter value against the name
+     * 
+     * @param name name of the query parameter
+     * 
+     * @return value of the query parameter
+     */
+    @Override
+    public String getQuery(String name) {
+        return req.getParameter(name);
     }
 
 }
