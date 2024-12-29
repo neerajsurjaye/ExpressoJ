@@ -18,9 +18,7 @@ Then add the following dependency in your dependent projects pom.xml file.
 > ```xml
 > <groupId>com.spec.web</groupId>
 > <artifactId>expressoj</artifactId>
-> <version>1.0.0-SNAPSHOT</version>
+> <version>1.0.0-beta</version>
 > ```
 
-For a demo project refer to [**ExpressoJ-Starter**](https://github.com/neerajsurjaye/ExpressoJ-Starter).
-
-### Note: currently at testing phase.
+For a starter project visit [**ExpressoJ-Starter**](https://github.com/neerajsurjaye/ExpressoJ-Starter).
