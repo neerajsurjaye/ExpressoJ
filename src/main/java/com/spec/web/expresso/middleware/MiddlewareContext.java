@@ -7,6 +7,9 @@ package com.spec.web.expresso.middleware;
  */
 public class MiddlewareContext {
 
+    /**
+     * Used to check if next middleware should be executed or not.
+     */
     private boolean shouldExecuteNextMiddleware;
 
     /**
