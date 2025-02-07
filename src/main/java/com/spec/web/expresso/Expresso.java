@@ -75,6 +75,7 @@ public class Expresso extends PathRouter {
                     .setHandler(manager.start())
                     .build();
             server.start();
+            System.out.println("Started server :: " + server);
         } catch (Exception e) {
             System.out.println(e);
         }
