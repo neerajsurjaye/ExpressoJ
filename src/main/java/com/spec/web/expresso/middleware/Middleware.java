@@ -21,6 +21,6 @@ public interface Middleware {
      * @param res  the http response
      * @param next MiddlewareFlowController
      */
-    public void execute(HttpRequest req, HttpResponse res, MiddlewareFlowController next);
+    public void execute(HttpRequest req, HttpResponse res, MiddlewareContext ctx);
 
 }

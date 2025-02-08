@@ -54,16 +54,21 @@ public class MiddlewareExecutor {
      */
     public void execute(HttpRequest req, HttpResponse res, String path, String method) {
 
-        MiddlewareFlowController mfc = new MiddlewareFlowController();
+        /**
+         * The following ctx will be passed down to a middleware.
+         * If executeNextMiddleware is called on it its shouldExecuteNextMiddleware
+         * becmoes true.
+         */
+        MiddlewareContext ctx = new MiddlewareContext();
 
         Iterator<MiddlewareMetaData> iter = middlewareList.iterator();
 
-        while (iter.hasNext() && mfc.isFlowAllowed()) {
+        while (iter.hasNext() && ctx.isFlowAllowed()) {
             MiddlewareMetaData currMiddlewareMeta = iter.next();
 
             if (matchPath(path, method, currMiddlewareMeta)) {
-                mfc.reset();
-                currMiddlewareMeta.getMiddleware().execute(req, res, mfc);
+                ctx.reset();
+                currMiddlewareMeta.getMiddleware().execute(req, res, ctx);
             }
 
         }
