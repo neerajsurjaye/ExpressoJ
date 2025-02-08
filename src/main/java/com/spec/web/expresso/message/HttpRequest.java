@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class HttpRequest implements Request {
 
     HttpServletRequest req;
+    String currentUrlPattern = null;
 
     private static final int BUFFER_SIZE = 1024;
 
@@ -59,6 +60,7 @@ public class HttpRequest implements Request {
     }
 
     /**
+     * TODO : Remove it
      * Deserializes a JSON string to an instance of specified class
      * 
      * pass the Class.class to the following function.
@@ -85,21 +87,23 @@ public class HttpRequest implements Request {
     }
 
     /**
-     * Get the url parameter value against the given name
+     * Get the route parameter value against the given name
      * 
-     * @param name name of the parameter , this name should be same as the name of
-     *             the parameter mentioned in the url pattern
+     * @param name name of the route parameter , this name should be same as the
+     *             name of
+     *             the parameter mentioned in the url pattern. Ex: /user/:id so
+     *             parameter name will be 'id'.
      * 
      * @return value of the parameter
      */
     @Override
-    public String getParams(String name) {
-        String urlPattern = ""; // in future get this from the req attribute
-        Map<String, String> urlParameter = URLParser.getPathVariables(urlPattern, req.getPathInfo());
+    public String getRouteParams(String name) {
+        String currentPath = req.getPathInfo();
+
+        Map<String, String> urlParameter = URLParser.getRouteParameters(this.currentUrlPattern, currentPath);
         return urlParameter.get(name) != null ? urlParameter.get(name) : "";
     }
 
-    /* TODO: Change the names */
     /**
      * Return the query parameter value against the name
      * 
@@ -108,8 +112,18 @@ public class HttpRequest implements Request {
      * @return value of the query parameter
      */
     @Override
-    public String getQuery(String name) {
+    public String getUrlParams(String name) {
         return req.getParameter(name);
+    }
+
+    /**
+     * Sets the current url pattern
+     * 
+     * @param currentUrlPattern Url pattern on which the current middlware is
+     *                          executing on.
+     */
+    public void setCurrentUrlPattern(String currentUrlPattern) {
+        this.currentUrlPattern = currentUrlPattern;
     }
 
 }

@@ -3,6 +3,9 @@ package com.spec.web.expresso.middleware;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.spec.web.expresso.constants.Methods;
 import com.spec.web.expresso.message.HttpRequest;
 import com.spec.web.expresso.message.HttpResponse;
@@ -66,8 +69,13 @@ public class MiddlewareExecutor {
         while (iter.hasNext() && ctx.isFlowAllowed()) {
             MiddlewareMetaData currMiddlewareMeta = iter.next();
 
-            if (matchPath(path, method, currMiddlewareMeta)) {
+            if (shouldMiddlewareExecute(path, method, currMiddlewareMeta)) {
                 ctx.reset();
+
+                /*
+                 * The path passed is used for extracting url parameters.
+                 */
+                req.setCurrentUrlPattern(currMiddlewareMeta.getPath());
                 currMiddlewareMeta.getMiddleware().execute(req, res, ctx);
             }
 
@@ -75,15 +83,46 @@ public class MiddlewareExecutor {
 
     }
 
-    /** Matches the path with method on a middlewareMetada */
-    private boolean matchPath(String path, String method, MiddlewareMetaData middlewareMetaData) {
+    /* Matches the path with method on a middlewareMetada. If match returns true */
+    private boolean shouldMiddlewareExecute(String path, String method, MiddlewareMetaData middlewareMetaData) {
 
+        return (matchPath(path, middlewareMetaData)) &&
+                (matchMethod(method, middlewareMetaData));
+
+    }
+
+    private boolean matchPath(String path, MiddlewareMetaData middlewareMetaData) {
         String middlewarePath = middlewareMetaData.getPath();
+
+        return middlewarePath.equals(path)
+                || middlewarePath.equals("")
+                || matchPathWithRouteParams(path, middlewareMetaData);
+    }
+
+    /*
+     * Matches paths with route paarmeter.
+     */
+    private boolean matchPathWithRouteParams(String path, MiddlewareMetaData middlewareMetaData) {
+
+        String rawPath = middlewareMetaData.getPath();
+        /*
+         * Replaces :id with \\w+. Thus making a url a pattern.
+         * 
+         * Todo: make this a one time task. This regex pattern should be genereate when
+         * the system starts.
+         */
+        String regexPattern = rawPath.replaceAll(":(\\w+)", "(\\\\w+)");
+
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(path);
+
+        return matcher.matches();
+
+    }
+
+    private boolean matchMethod(String method, MiddlewareMetaData middlewareMetaData) {
         String middlewareMethod = middlewareMetaData.getMethod();
-
-        return (middlewarePath.equals(path) || middlewarePath.equals("")) &&
-                (middlewareMethod.equals(method) || middlewareMethod.equals(Methods.METHOD_USE));
-
+        return middlewareMethod.equals(method) || middlewareMethod.equals(Methods.METHOD_USE);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.spec.web.expresso.middleware;
 
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Represents the metadata for a middleware.

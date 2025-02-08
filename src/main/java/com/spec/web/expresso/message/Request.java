@@ -26,24 +26,23 @@ public interface Request {
      */
     String body() throws IOException;
 
-    /* TODO: change its name */
     /**
-     * Get the url parameter value against the given name.
+     * Get the route parameter value against the given name.
      * 
      * @param name name of the parameter , this name should be same as the name of
      *             the parameter mentioned in the url pattern
      * 
      * @return value of the parameter
      */
-    String getParams(String name);
+    String getRouteParams(String name);
 
     /**
-     * Return the query parameter value against the name
+     * Return the query/search parameter value against the name
      * 
      * @param name name of the query parameter
      * 
      * @return value of the query parameter
      */
-    String getQuery(String name);
+    String getUrlParams(String name);
 
 }
