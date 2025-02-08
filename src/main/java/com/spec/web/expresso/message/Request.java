@@ -26,7 +26,6 @@ public interface Request {
      */
     String body() throws IOException;
 
-    /* TODO: change its name */
     /**
      * Get the url parameter value against the given name.
      * 
@@ -35,7 +34,7 @@ public interface Request {
      * 
      * @return value of the parameter
      */
-    String getParams(String name);
+    String getRouteParams(String name);
 
     /**
      * Return the query parameter value against the name
@@ -44,6 +43,6 @@ public interface Request {
      * 
      * @return value of the query parameter
      */
-    String getQuery(String name);
+    String getUrlParams(String name);
 
 }
