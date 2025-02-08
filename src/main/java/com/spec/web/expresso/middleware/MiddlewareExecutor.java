@@ -71,6 +71,10 @@ public class MiddlewareExecutor {
 
             if (shouldMiddlewareExecute(path, method, currMiddlewareMeta)) {
                 ctx.reset();
+
+                /*
+                 * The path passed is used for extracting url parameters.
+                 */
                 req.setCurrentUrlPattern(currMiddlewareMeta.getPath());
                 currMiddlewareMeta.getMiddleware().execute(req, res, ctx);
             }
@@ -79,11 +83,8 @@ public class MiddlewareExecutor {
 
     }
 
-    /** Matches the path with method on a middlewareMetada */
+    /* Matches the path with method on a middlewareMetada. If match returns true */
     private boolean shouldMiddlewareExecute(String path, String method, MiddlewareMetaData middlewareMetaData) {
-
-        System.out.println("Should middleware execute Path : " + path + "method : " + method + "midddlwareMetadata : "
-                + middlewareMetaData);
 
         return (matchPath(path, middlewareMetaData)) &&
                 (matchMethod(method, middlewareMetaData));
@@ -98,17 +99,22 @@ public class MiddlewareExecutor {
                 || matchPathWithRouteParams(path, middlewareMetaData);
     }
 
+    /*
+     * Matches paths with route paarmeter.
+     */
     private boolean matchPathWithRouteParams(String path, MiddlewareMetaData middlewareMetaData) {
 
         String rawPath = middlewareMetaData.getPath();
+        /*
+         * Replaces :id with \\w+. Thus making a url a pattern.
+         * 
+         * Todo: make this a one time task. This regex pattern should be genereate when
+         * the system starts.
+         */
         String regexPattern = rawPath.replaceAll(":(\\w+)", "(\\\\w+)");
-
-        System.out.println("matchPathWithRouteParams : regexPattern : " + regexPattern);
 
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(path);
-
-        System.out.println("matchPathWithRouteParams : matches : " + matcher.matches());
 
         return matcher.matches();
 

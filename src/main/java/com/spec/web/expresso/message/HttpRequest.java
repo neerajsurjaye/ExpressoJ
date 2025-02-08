@@ -87,12 +87,12 @@ public class HttpRequest implements Request {
     }
 
     /**
-     * Get the url parameter value against the given name
+     * Get the route parameter value against the given name
      * 
-     * @param name name of the parameter , this name should be same as the name of
-     *             the parameter mentioned in the url pattern. Ex: /ueser/:id so
+     * @param name name of the route parameter , this name should be same as the
+     *             name of
+     *             the parameter mentioned in the url pattern. Ex: /user/:id so
      *             parameter name will be 'id'.
-     * 
      * 
      * @return value of the parameter
      */

@@ -27,7 +27,7 @@ public interface Request {
     String body() throws IOException;
 
     /**
-     * Get the url parameter value against the given name.
+     * Get the route parameter value against the given name.
      * 
      * @param name name of the parameter , this name should be same as the name of
      *             the parameter mentioned in the url pattern
@@ -37,7 +37,7 @@ public interface Request {
     String getRouteParams(String name);
 
     /**
-     * Return the query parameter value against the name
+     * Return the query/search parameter value against the name
      * 
      * @param name name of the query parameter
      * 
