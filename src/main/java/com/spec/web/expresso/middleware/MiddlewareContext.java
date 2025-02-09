@@ -11,6 +11,7 @@ public class MiddlewareContext {
      * Used to check if next middleware should be executed or not.
      */
     private boolean shouldExecuteNextMiddleware;
+    private boolean isMiddlewareExecutedOnCurrentPath;
 
     /**
      * Instanstiate the class.
@@ -35,6 +36,14 @@ public class MiddlewareContext {
 
     protected boolean isFlowAllowed() {
         return shouldExecuteNextMiddleware;
+    }
+
+    protected void markMiddlewareExecuted() {
+        isMiddlewareExecutedOnCurrentPath = true;
+    }
+
+    protected boolean wasMiddlewareExecutedOnCurrentPath() {
+        return isMiddlewareExecutedOnCurrentPath;
     }
 
 }

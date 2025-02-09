@@ -70,7 +70,12 @@ public class MiddlewareExecutor {
             MiddlewareMetaData currMiddlewareMeta = iter.next();
 
             if (shouldMiddlewareExecute(path, method, currMiddlewareMeta)) {
+                /*
+                 * Resets context if current middleware doesn't call executeNextMiddleware().
+                 * Execution will stop.
+                 */
                 ctx.reset();
+                ctx.markMiddlewareExecuted();
 
                 /*
                  * The path passed is used for extracting url parameters.
@@ -79,6 +84,13 @@ public class MiddlewareExecutor {
                 currMiddlewareMeta.getMiddleware().execute(req, res, ctx);
             }
 
+        }
+
+        /*
+         * If no middleware is executed returns a 404 error message.
+         */
+        if (!ctx.wasMiddlewareExecutedOnCurrentPath()) {
+            res.setStatusCode(404).writeResponse("404 : Not found");
         }
 
     }

@@ -6,16 +6,6 @@ import java.io.IOException;
  * Represent a Http request
  */
 public interface Request {
-    /**
-     * Gives the payload as json
-     * 
-     * @param <T>  The json response type
-     * @param type The class type to deserialize to
-     * @return The deserialized object
-     * @throws IllegalArgumentException If payload is invalid
-     * @throws IOException              If there is error reading the request body
-     */
-    public <T> T json(Class<T> type) throws IllegalArgumentException, IOException;
 
     /**
      * Returns the body(payload) of the Http request

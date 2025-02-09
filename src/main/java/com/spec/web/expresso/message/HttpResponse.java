@@ -129,4 +129,13 @@ public class HttpResponse implements Response {
         return this;
     }
 
+    /**
+     * Returns the httpservletresponse used internally by Expresso.
+     * 
+     * @return HttpServletResponse
+     */
+    public HttpServletResponse getHttpServletResponse() {
+        return resp;
+    }
+
 }
