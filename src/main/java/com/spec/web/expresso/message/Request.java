@@ -35,4 +35,11 @@ public interface Request {
      */
     String getUrlParams(String name);
 
+    /**
+     * Retrives the path of the current request url.
+     * 
+     * @return the path of the current request
+     */
+    String getRequestPath();
+
 }

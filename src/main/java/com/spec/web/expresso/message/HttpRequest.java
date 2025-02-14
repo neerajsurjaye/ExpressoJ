@@ -102,4 +102,14 @@ public class HttpRequest implements Request {
         return req;
     }
 
+    /**
+     * Retrives the path of the current request url.
+     * 
+     * @return the path of the current request
+     */
+    @Override
+    public String getRequestPath() {
+        return req.getRequestURI();
+    }
+
 }
