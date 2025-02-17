@@ -1,6 +1,8 @@
 package com.spec.web.expresso.message;
 
 import java.io.IOException;
+import java.io.OutputStream;
+
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
@@ -136,6 +138,17 @@ public class HttpResponse implements Response {
      */
     public HttpServletResponse getHttpServletResponse() {
         return resp;
+    }
+
+    /**
+     * Returns the output stream from response servlet.
+     * 
+     * @return OutputStream
+     * @throws IOException
+     */
+    @Override
+    public OutputStream getOutputStream() throws IOException {
+        return resp.getOutputStream();
     }
 
 }

@@ -1,5 +1,8 @@
 package com.spec.web.expresso.message;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
  * Modifies the response that will be send to the client.
  */
@@ -59,4 +62,11 @@ public interface Response {
      * @return returns the current class instance for method chaining.
      */
     Response resetResponseBody();
+
+    /**
+     * Returns the output stream from response servlet.
+     * 
+     * @return OutputStream
+     */
+    OutputStream getOutputStream() throws IOException;
 }

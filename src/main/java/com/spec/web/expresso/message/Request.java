@@ -42,4 +42,11 @@ public interface Request {
      */
     String getRequestPath();
 
+    /**
+     * Returns the mime type of file passed to it.
+     * 
+     * @return MIME type of file
+     */
+    String getMimeType(String fileName);
+
 }

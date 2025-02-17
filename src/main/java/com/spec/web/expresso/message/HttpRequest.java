@@ -112,4 +112,14 @@ public class HttpRequest implements Request {
         return req.getRequestURI();
     }
 
+    /**
+     * Returns the mime type of file name passed to it.
+     * 
+     * @return MIME type of the file
+     */
+    @Override
+    public String getMimeType(String fileName) {
+        return req.getServletContext().getMimeType(fileName);
+    }
+
 }
