@@ -1,6 +1,9 @@
 package com.spec.web.expresso.middleware.standard;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -132,17 +135,37 @@ class StaticFileServerMiddleware implements Middleware {
 
         System.out.println("FullPath : " + fullPath);
 
+        String mimeType = req.getMimeType(fullPath.getFileName().toString());
+        res.setContentTypeHeader(mimeType);
+
         /**
          * tries to read the data
          * 
          * if successfull returns the page if not returns 404
          */
+        InputStream inputStream = null;
         try {
-            String fileData = Files.readString(fullPath);
-            res.writeResponse(fileData);
+            inputStream = Files.newInputStream(fullPath);
+            OutputStream outputStream = res.getOutputStream();
+
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
         } catch (IOException exception) {
             res.setStatusCode(404);
             res.writeResponse("File Not found");
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    // pass
+                }
+            }
         }
     }
 
