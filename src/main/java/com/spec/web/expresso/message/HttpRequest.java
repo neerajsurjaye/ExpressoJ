@@ -1,13 +1,8 @@
 package com.spec.web.expresso.message;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
-
-import javax.sound.sampled.AudioFormat.Encoding;
 
 import com.spec.web.expresso.util.URLParser;
 
@@ -21,8 +16,6 @@ public class HttpRequest implements Request {
 
     HttpServletRequest req;
     String currentUrlPattern = null;
-
-    private static final int BUFFER_SIZE = 1024;
 
     /**
      * Constructs an instance of HttpRequest wrapping an HttpServletRequest.
@@ -100,6 +93,26 @@ public class HttpRequest implements Request {
      */
     public HttpServletRequest getHttpServletRequest() {
         return req;
+    }
+
+    /**
+     * Retrives the path of the current request url.
+     * 
+     * @return the path of the current request
+     */
+    @Override
+    public String getRequestPath() {
+        return req.getRequestURI();
+    }
+
+    /**
+     * Returns the mime type of file name passed to it.
+     * 
+     * @return MIME type of the file
+     */
+    @Override
+    public String getMimeType(String fileName) {
+        return req.getServletContext().getMimeType(fileName);
     }
 
 }

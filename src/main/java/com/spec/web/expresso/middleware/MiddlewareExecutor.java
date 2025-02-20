@@ -90,8 +90,10 @@ public class MiddlewareExecutor {
          * If no middleware is executed returns a 404 error message.
          */
         if (!ctx.wasMiddlewareExecutedOnCurrentPath()) {
-            res.setStatusCode(404).writeResponse("404 : Not found");
+            res.setStatusCode(404).writeResponse("404 : No method to execute on this path");
         }
+
+        res.closeOutputStream();
 
     }
 
@@ -103,12 +105,25 @@ public class MiddlewareExecutor {
 
     }
 
+    /*
+     * Checks if the middleware should be executed on current path or not.
+     * 
+     * On below conditions returns true.
+     * 
+     * 1. If path matches
+     * 2. if middleware path is set to empty string. It implies that middleware
+     * should execute on every request.
+     * 3. Mathces paths with route params ex: /user/:uid/comment/:cid
+     * 4. Matches dynamic paths ex: /user/*
+     * 
+     */
     private boolean matchPath(String path, MiddlewareMetaData middlewareMetaData) {
         String middlewarePath = middlewareMetaData.getPath();
 
         return middlewarePath.equals(path)
                 || middlewarePath.equals("")
-                || matchPathWithRouteParams(path, middlewareMetaData);
+                || matchPathWithRouteParams(path, middlewareMetaData)
+                || matchWildcardPath(path, middlewareMetaData);
     }
 
     /*
@@ -129,6 +144,28 @@ public class MiddlewareExecutor {
         Matcher matcher = pattern.matcher(path);
 
         return matcher.matches();
+
+    }
+
+    /**
+     * Checks if the path is a wildcard path
+     * 
+     * ex wildcard path /user/order/*
+     * '*' Can be replaced by any path after it
+     * 
+     * @param path Path on which the middleware is set.
+     * @return Checks if paths match.
+     */
+    private boolean matchWildcardPath(String path, MiddlewareMetaData middlewareMetaData) {
+        String rawPath = middlewareMetaData.getPath();
+
+        if (rawPath.lastIndexOf('*') != rawPath.length() - 1) {
+            return false;
+        }
+
+        String pathWithoutWildCard = rawPath.substring(0, rawPath.length() - 1);
+
+        return path.indexOf(pathWithoutWildCard) == 0;
 
     }
 
