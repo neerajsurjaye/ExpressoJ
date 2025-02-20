@@ -17,8 +17,6 @@ public class HttpRequest implements Request {
     HttpServletRequest req;
     String currentUrlPattern = null;
 
-    private static final int BUFFER_SIZE = 1024;
-
     /**
      * Constructs an instance of HttpRequest wrapping an HttpServletRequest.
      * 

@@ -1,7 +1,6 @@
 package com.spec.web.expresso.middleware.standard;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import java.nio.file.Files;

@@ -160,17 +160,12 @@ public class MiddlewareExecutor {
         // return (path.lastIndexOf('*') == path.length() - 1);
         String rawPath = middlewareMetaData.getPath();
 
-        System.out.println("Matching path with pramas : " + rawPath);
         if (rawPath.lastIndexOf('*') != rawPath.length() - 1) {
-            System.out.println(
-                    "Wildcard path not matched : " + rawPath.lastIndexOf('*') + " len : " + (rawPath.length() - 1));
             return false;
         }
 
         String pathWithoutWildCard = rawPath.substring(0, rawPath.length() - 1);
 
-        System.out.println(
-                "path without wild card : " + pathWithoutWildCard + " matching : " + path);
         return path.indexOf(pathWithoutWildCard) == 0;
 
     }
