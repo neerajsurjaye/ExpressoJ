@@ -69,4 +69,9 @@ public interface Response {
      * @return OutputStream
      */
     OutputStream getOutputStream() throws IOException;
+
+    /**
+     * Closes the output stream. Returns true if successfull
+     */
+    boolean closeOutputStream();
 }

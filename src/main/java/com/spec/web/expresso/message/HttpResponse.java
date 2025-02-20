@@ -2,6 +2,7 @@ package com.spec.web.expresso.message;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class HttpResponse implements Response {
 
     HttpServletResponse resp;
+    OutputStream responseOutputStream = null;
 
     /**
      * Constructs an instance of this class
@@ -31,20 +33,15 @@ public class HttpResponse implements Response {
      */
     @Override
     public HttpResponse writeResponse(String response) {
-
         try {
-            resp.getWriter().write(response);
-        } catch (IOException e) {
-            try {
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.toString());
-            } catch (IOException e1) {
-                // add logger
-                e1.printStackTrace();
-            }
+            responseOutputStream = this.getOutputStream();
+            responseOutputStream.write(response.getBytes(StandardCharsets.UTF_8));
+            responseOutputStream.flush();
+        } catch (IOException ioE) {
+            ioE.printStackTrace();
         }
 
         return this;
-
     }
 
     /**
@@ -149,6 +146,21 @@ public class HttpResponse implements Response {
     @Override
     public OutputStream getOutputStream() throws IOException {
         return resp.getOutputStream();
+    }
+
+    /**
+     * Closes the output stream. Returns true if successfull
+     */
+    @Override
+    public boolean closeOutputStream() {
+        if (this.responseOutputStream != null) {
+            try {
+                responseOutputStream.close();
+            } catch (IOException e) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

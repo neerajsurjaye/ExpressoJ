@@ -93,6 +93,8 @@ public class MiddlewareExecutor {
             res.setStatusCode(404).writeResponse("404 : No method to execute on this path");
         }
 
+        res.closeOutputStream();
+
     }
 
     /* Matches the path with method on a middlewareMetada. If match returns true */
