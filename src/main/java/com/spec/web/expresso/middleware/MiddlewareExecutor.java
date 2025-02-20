@@ -157,7 +157,6 @@ public class MiddlewareExecutor {
      * @return Checks if paths match.
      */
     private boolean matchWildcardPath(String path, MiddlewareMetaData middlewareMetaData) {
-        // return (path.lastIndexOf('*') == path.length() - 1);
         String rawPath = middlewareMetaData.getPath();
 
         if (rawPath.lastIndexOf('*') != rawPath.length() - 1) {
