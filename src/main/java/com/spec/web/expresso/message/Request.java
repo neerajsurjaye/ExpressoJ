@@ -35,4 +35,18 @@ public interface Request {
      */
     String getUrlParams(String name);
 
+    /**
+     * Retrives the path of the current request url.
+     * 
+     * @return the path of the current request
+     */
+    String getRequestPath();
+
+    /**
+     * Returns the mime type of file passed to it.
+     * 
+     * @return MIME type of file
+     */
+    String getMimeType(String fileName);
+
 }

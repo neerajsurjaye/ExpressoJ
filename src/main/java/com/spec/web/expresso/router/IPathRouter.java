@@ -111,4 +111,7 @@ public interface IPathRouter {
      */
     List<MiddlewareMetaData> getMiddlewareMetadataAsList();
 
+    /** Middleware will register a middlewareMetadata */
+    void use(String path, MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas);
+
 }

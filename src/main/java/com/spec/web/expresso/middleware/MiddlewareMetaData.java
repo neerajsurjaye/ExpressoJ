@@ -118,4 +118,10 @@ public class MiddlewareMetaData {
         return String.format("{Middleware: %s, path: %s, method: %s}%n", middleware, path, method);
     }
 
+    /** Sets the path */
+    public void setPath(String pathString) {
+        this.pathBuilder = new StringBuilder(pathBuilder);
+        this.path = pathString;
+    }
+
 }
