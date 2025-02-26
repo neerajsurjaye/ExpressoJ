@@ -1,22 +1,17 @@
 package com.spec.web.expresso.middleware;
 
-import lombok.Getter;
-import lombok.ToString;
-
 /**
  * Represents the metadata for a middleware.
  */
 public class MiddlewareMetaData {
 
     /** The middleware that will be encapsulated by this class */
-    @Getter
     private Middleware middleware;
 
     /**
      * The path of the middleware. One of the condition of middleware execution the
      * path should match.
      */
-    @Getter
     private String path = "";
 
     /**
@@ -27,13 +22,30 @@ public class MiddlewareMetaData {
     /**
      * The method on which the middleware is registered on.
      * 
-     * Generally the method will be HTTP method but is palced as generic as it may
-     * support more features.
+     * Generally the method will be HTTP method but is palced as generic as it
+     * supports custom methods like 'USE'.
      * 
-     * Will be set to "use" to execute on all methods.
+     * Will be set to "USE" to execute on all methods.
      */
-    @Getter
     private String method;
+
+    /**
+     * Returns the method on which the middleware is registerd on.
+     * 
+     * @return Method name
+     */
+    public String getMethod() {
+        return method;
+    }
+
+    /**
+     * Returns the middleware which is registerd on it.
+     * 
+     * @return Instance of middleware.
+     */
+    public Middleware getMiddleware() {
+        return middleware;
+    }
 
     /**
      * Instantaiats the class
@@ -66,6 +78,7 @@ public class MiddlewareMetaData {
     private MiddlewareMetaData(Middleware middleware, String path, StringBuilder pathBuilder, String method) {
         this.middleware = middleware;
         this.pathBuilder = new StringBuilder(pathBuilder);
+        this.path = path;
         this.method = method;
         calcPath();
     }
@@ -73,7 +86,7 @@ public class MiddlewareMetaData {
     /**
      * Sets a path for the current middleware
      * 
-     * @param path the path which should be appended.
+     * @param path the path which should be appended to the current path.
      */
     public void appendPath(String path) {
         this.pathBuilder.append(path);
@@ -122,6 +135,15 @@ public class MiddlewareMetaData {
     public void setPath(String pathString) {
         this.pathBuilder = new StringBuilder(pathBuilder);
         this.path = pathString;
+    }
+
+    /**
+     * Returns the path on which the middleware metadata is registered on.
+     * 
+     * @return path.
+     */
+    public String getPath() {
+        return path;
     }
 
 }

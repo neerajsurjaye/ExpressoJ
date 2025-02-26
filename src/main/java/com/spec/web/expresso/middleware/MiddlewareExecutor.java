@@ -3,6 +3,7 @@ package com.spec.web.expresso.middleware;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +19,8 @@ public class MiddlewareExecutor {
 
     /** Holds all the middlewareMetadata */
     List<MiddlewareMetaData> middlewareList;
+
+    private static final ConcurrentHashMap<String, Pattern> dynamicPathPatternCache = new ConcurrentHashMap<>();
 
     /**
      * Constructs a instance of the class
@@ -126,21 +129,27 @@ public class MiddlewareExecutor {
                 || matchWildcardPath(path, middlewareMetaData);
     }
 
-    /*
+    /**
      * Matches paths with route paarmeter.
+     * 
+     * @param path
+     * @param middlewareMetaData
+     * @return Returns true if path matches.
      */
     private boolean matchPathWithRouteParams(String path, MiddlewareMetaData middlewareMetaData) {
 
         String rawPath = middlewareMetaData.getPath();
-        /*
-         * Replaces :id with \\w+. Thus making a url a pattern.
-         * 
-         * Todo: make this a one time task. This regex pattern should be genereate when
-         * the system starts.
-         */
-        String regexPattern = rawPath.replaceAll(":(\\w+)", "(\\\\w+)");
 
-        Pattern pattern = Pattern.compile(regexPattern);
+        /*
+         * Replaces :id with \\w+. Thus making a regex url pattern.
+         * Thus user/:id will match user/123
+         */
+        dynamicPathPatternCache.computeIfAbsent(rawPath, k -> {
+            String regexPattern = k.replaceAll(":(\\w+)", "(\\\\w+)");
+            return Pattern.compile(regexPattern);
+        });
+
+        Pattern pattern = dynamicPathPatternCache.get(rawPath);
         Matcher matcher = pattern.matcher(path);
 
         return matcher.matches();
@@ -169,6 +178,14 @@ public class MiddlewareExecutor {
 
     }
 
+    /**
+     * Matches the HTTP method on which the request is called on.
+     * 'USE' matches all HTTP methods.
+     * 
+     * @param method
+     * @param middlewareMetaData
+     * @return returns true if method matches
+     */
     private boolean matchMethod(String method, MiddlewareMetaData middlewareMetaData) {
         String middlewareMethod = middlewareMetaData.getMethod();
         return middlewareMethod.equals(method) || middlewareMethod.equals(Methods.METHOD_USE);

@@ -1,5 +1,9 @@
 package com.spec.web.expresso;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.spec.web.expresso.exceptions.ExpressoRuntimeException;
 import com.spec.web.expresso.router.PathRouter;
 import com.spec.web.expresso.servlet.RequestHandlingServlet;
 
@@ -9,7 +13,6 @@ import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.ServletInfo;
 import jakarta.servlet.ServletException;
-import lombok.Getter;
 
 /**
  * User will instantiate the following class to interact with the framework.
@@ -17,8 +20,9 @@ import lombok.Getter;
  */
 public class Expresso extends PathRouter {
 
+    private static Logger logger = LoggerFactory.getLogger(Expresso.class);
+
     /** The single Expresso object that will exist for the whole program. */
-    @Getter
     private static Expresso expressoObj = null;
 
     /** The network port on which server will run on. Defaults to 8080 */
@@ -38,6 +42,10 @@ public class Expresso extends PathRouter {
     /** Private constructor to enforce singelton pattern. */
     private Expresso() {
 
+    }
+
+    public static Expresso getExpressoObj() {
+        return expressoObj;
     }
 
     /**
@@ -117,9 +125,11 @@ public class Expresso extends PathRouter {
 
             isServerStarted = true;
 
-            System.out.println("Started server :: " + server);
+            logger.warn("Server Started on port {} with host IP {} and context path \"{}\"", this.port,
+                    this.host,
+                    this.contextPath);
         } catch (ServletException | RuntimeException e) {
-            System.out.println(e);
+            throw new ExpressoRuntimeException(e);
         }
     }
 
@@ -128,7 +138,7 @@ public class Expresso extends PathRouter {
             server.stop();
             server = null;
             isServerStarted = false;
-            System.out.println("Stopped server");
+            logger.warn("Server stopped");
         }
     }
 

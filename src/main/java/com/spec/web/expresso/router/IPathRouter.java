@@ -37,8 +37,6 @@ public interface IPathRouter {
      */
     void use(IPathRouter router, IPathRouter... addRouters);
 
-    /** Middleware wiil execute regardless of HTTP method */
-
     /**
      * Registers routers on a path. All the middlewares registered on these routers
      * will execute on current router path + the registered path.

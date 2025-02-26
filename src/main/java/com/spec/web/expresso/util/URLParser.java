@@ -12,11 +12,8 @@ import java.util.regex.Pattern;
  */
 public class URLParser {
 
-    /**
-     * Instantiates the class
-     */
-    public URLParser() {
-        // Empty for now
+    private URLParser() {
+
     }
 
     /**
@@ -38,7 +35,7 @@ public class URLParser {
         Pattern pattern = Pattern.compile(urlPattern.replaceAll(":(\\w+)", "(?<$1>\\\\w+)"));
         Matcher matcher = pattern.matcher(url);
         if (matcher.matches()) {
-            for (String key : getRouteParamaeterNames(urlPattern)) {
+            for (String key : getRouteParameterNames(urlPattern)) {
                 pathVariables.put(key, matcher.group(key));
             }
         }
@@ -52,7 +49,7 @@ public class URLParser {
      *                   extracted.
      * @return List of names of router patemeters
      */
-    private static List<String> getRouteParamaeterNames(String urlPattern) {
+    private static List<String> getRouteParameterNames(String urlPattern) {
         List<String> pathVariables = new ArrayList<>();
         Pattern pattern = Pattern.compile(":(\\w+)");
         Matcher matcher = pattern.matcher(urlPattern);

@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Wrapper class over HttpServletRequest.
- * Helps in handling of Http request
+ * Helps in handling of Http request.
  */
 public class HttpRequest implements Request {
 
