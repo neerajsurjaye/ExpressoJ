@@ -3,6 +3,8 @@ package com.spec.web.expresso.message;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import jakarta.servlet.http.Cookie;
+
 /**
  * Modifies the response that will be send to the client.
  */
@@ -74,4 +76,12 @@ public interface Response {
      * Closes the output stream. Returns true if successfull
      */
     boolean closeOutputStream();
+
+    /**
+     * Sets a cookie that will be sent to the client.
+     * 
+     * @param key
+     * @param value
+     */
+    void setCookies(Cookie cookie, Cookie... moreCookies);
 }

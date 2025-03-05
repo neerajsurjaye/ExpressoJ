@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.spec.web.expresso.util.URLParser;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -113,6 +114,16 @@ public class HttpRequest implements Request {
     @Override
     public String getMimeType(String fileName) {
         return req.getServletContext().getMimeType(fileName);
+    }
+
+    /**
+     * Returns list of cookies sent by the client
+     * 
+     * @return List of cookies
+     */
+    @Override
+    public Cookie[] getCookies() {
+        return req.getCookies();
     }
 
 }

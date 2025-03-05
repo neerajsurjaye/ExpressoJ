@@ -2,6 +2,8 @@ package com.spec.web.expresso.message;
 
 import java.io.IOException;
 
+import jakarta.servlet.http.Cookie;
+
 /**
  * Represent a Http request
  */
@@ -49,4 +51,10 @@ public interface Request {
      */
     String getMimeType(String fileName);
 
+    /**
+     * Returns list of cookies sent by the client
+     * 
+     * @return List of cookies
+     */
+    Cookie[] getCookies();
 }
