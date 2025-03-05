@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
@@ -161,6 +162,22 @@ public class HttpResponse implements Response {
             }
         }
         return true;
+    }
+
+    /**
+     * Sets a cookie that will be sent to the client.
+     * 
+     * @param key
+     * @param value
+     */
+    @Override
+    public void setCookies(Cookie cookie, Cookie... moreCookies) {
+        resp.addCookie(cookie);
+
+        for (Cookie aCookie : moreCookies) {
+            resp.addCookie(aCookie);
+        }
+
     }
 
 }
