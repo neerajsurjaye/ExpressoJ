@@ -1,6 +1,7 @@
 package com.spec.web.expresso.message;
 
 import java.io.IOException;
+import java.io.Reader;
 
 import jakarta.servlet.http.Cookie;
 
@@ -57,4 +58,12 @@ public interface Request {
      * @return List of cookies
      */
     Cookie[] getCookies();
+
+    /**
+     * Returns a reader object to read request body.
+     * 
+     * @return Reader instance to read request body.
+     */
+    Reader getReader() throws IOException;
+
 }
