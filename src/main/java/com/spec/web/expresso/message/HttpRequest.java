@@ -2,6 +2,8 @@ package com.spec.web.expresso.message;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.Buffer;
 import java.util.Map;
 
 import com.spec.web.expresso.util.URLParser;
@@ -123,7 +125,21 @@ public class HttpRequest implements Request {
      */
     @Override
     public Cookie[] getCookies() {
-        return req.getCookies();
+        Cookie[] resp = req.getCookies();
+        if (resp == null) {
+            resp = new Cookie[0];
+        }
+        return resp;
+    }
+
+    /**
+     * Returns a reader object to read request body.
+     * 
+     * @return Reader instance to read request body.
+     */
+    @Override
+    public Reader getReader() throws IOException {
+        return req.getReader();
     }
 
 }
