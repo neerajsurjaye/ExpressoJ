@@ -112,4 +112,7 @@ public interface IPathRouter {
     /** Middleware will register a middlewareMetadata */
     void use(String path, MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas);
 
+    /** Middleware will register a middlewareMetadata */
+    void use(MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas);
+
 }
