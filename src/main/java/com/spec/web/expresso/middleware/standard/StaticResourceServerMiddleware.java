@@ -95,8 +95,8 @@ class StaticResourceServerMiddleware implements Middleware {
                 OutputStream out = res.getOutputStream();) {
 
             if (inputStream == null) {
-                res.setStatusCode(404);
-                res.writeResponse("File Not found");
+                // File not found should try to execute the next middleware.
+                ctx.executeNextMiddleware();
                 return;
             }
 

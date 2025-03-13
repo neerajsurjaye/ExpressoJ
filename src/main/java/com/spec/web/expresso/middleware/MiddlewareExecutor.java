@@ -73,6 +73,7 @@ public class MiddlewareExecutor {
             MiddlewareMetaData currMiddlewareMeta = iter.next();
 
             if (shouldMiddlewareExecute(path, method, currMiddlewareMeta)) {
+
                 /*
                  * Resets context if current middleware doesn't call executeNextMiddleware().
                  * Execution will stop.
