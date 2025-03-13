@@ -104,6 +104,7 @@ class StaticFileServerMiddleware implements Middleware {
 
         if (!Files.exists(fullPath)) {
             ctx.executeNextMiddleware();
+            ctx.markMiddlewareNotExecuted();
             return;
         }
 

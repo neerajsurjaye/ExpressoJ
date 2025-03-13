@@ -75,7 +75,7 @@ public interface Response {
     /**
      * Closes the output stream. Returns true if successfull
      */
-    boolean closeOutputStream();
+    boolean _closeOutputStream();
 
     /**
      * Sets a cookie that will be sent to the client.
