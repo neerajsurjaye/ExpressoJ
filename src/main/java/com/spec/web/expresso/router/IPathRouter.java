@@ -152,4 +152,30 @@ public interface IPathRouter {
     /** Middleware will register a middlewareMetadata */
     void use(MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas);
 
+    /**
+     * Registers one middleware which will execute before the routers being
+     * registerd.
+     * 
+     * All the middlewares registered on these routers will
+     * execute on current router path.
+     * 
+     * @param middleware The middleware to register
+     * @param addRouters Optional. List of routers to registers with the current
+     *                   middleware
+     */
+    void use(Middleware middleware, IPathRouter... addRouters);
+
+    /**
+     * Registers one middleware which will execute before the routers being
+     * registerd. All of these are registered on the a path.
+     * 
+     * All the middlewares registered on these routers will
+     * execute on current router path.
+     * 
+     * @param middleware The middleware to register
+     * @param addRouters Optional. List of routers to registers with the current
+     *                   middleware
+     */
+    void use(String path, Middleware middleware, IPathRouter... addRouters);
+
 }
