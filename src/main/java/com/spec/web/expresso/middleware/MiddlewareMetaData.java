@@ -57,7 +57,6 @@ public class MiddlewareMetaData {
         this.middleware = middleware;
         this.method = method;
         this.pathBuilder = new StringBuilder();
-
     }
 
     /**

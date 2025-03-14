@@ -3,7 +3,6 @@ package com.spec.web.expresso.message;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.Buffer;
 import java.util.Map;
 
 import com.spec.web.expresso.util.URLParser;

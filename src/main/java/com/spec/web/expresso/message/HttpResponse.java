@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
+import com.spec.web.expresso.util.ExpressoOutputStream;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -146,14 +148,15 @@ public class HttpResponse implements Response {
      */
     @Override
     public OutputStream getOutputStream() throws IOException {
-        return resp.getOutputStream();
+        OutputStream out = resp.getOutputStream();
+        return new ExpressoOutputStream(out);
     }
 
     /**
      * Closes the output stream. Returns true if successfull
      */
     @Override
-    public boolean closeOutputStream() {
+    public boolean _closeOutputStream() {
         if (this.responseOutputStream != null) {
             try {
                 responseOutputStream.close();

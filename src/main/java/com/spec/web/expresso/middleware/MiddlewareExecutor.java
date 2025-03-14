@@ -73,6 +73,7 @@ public class MiddlewareExecutor {
             MiddlewareMetaData currMiddlewareMeta = iter.next();
 
             if (shouldMiddlewareExecute(path, method, currMiddlewareMeta)) {
+
                 /*
                  * Resets context if current middleware doesn't call executeNextMiddleware().
                  * Execution will stop.
@@ -96,7 +97,7 @@ public class MiddlewareExecutor {
             res.setStatusCode(404).writeResponse("404 : No method to execute on this path");
         }
 
-        res.closeOutputStream();
+        res._closeOutputStream();
 
     }
 

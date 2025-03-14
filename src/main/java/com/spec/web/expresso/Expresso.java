@@ -1,8 +1,5 @@
 package com.spec.web.expresso;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.spec.web.expresso.exceptions.ExpressoRuntimeException;
 import com.spec.web.expresso.router.PathRouter;
 import com.spec.web.expresso.servlet.RequestHandlingServlet;
@@ -13,14 +10,14 @@ import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.ServletInfo;
 import jakarta.servlet.ServletException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * User will instantiate the following class to interact with the framework.
  * Class follows singleton pattern.
  */
+@Slf4j
 public class Expresso extends PathRouter {
-
-    private static Logger logger = LoggerFactory.getLogger(Expresso.class);
 
     /** The single Expresso object that will exist for the whole program. */
     private static Expresso expressoObj = null;
@@ -125,7 +122,7 @@ public class Expresso extends PathRouter {
 
             isServerStarted = true;
 
-            logger.warn("Server Started on port {} with host IP {} and context path \"{}\"", this.port,
+            log.warn("Server Started on port {} with host IP {} and context path \"{}\"", this.port,
                     this.host,
                     this.contextPath);
         } catch (ServletException | RuntimeException e) {
@@ -138,7 +135,7 @@ public class Expresso extends PathRouter {
             server.stop();
             server = null;
             isServerStarted = false;
-            logger.warn("Server stopped");
+            log.warn("Server stopped");
         }
     }
 

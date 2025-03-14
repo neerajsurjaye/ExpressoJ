@@ -91,12 +91,13 @@ class StaticResourceServerMiddleware implements Middleware {
 
         currentFilepath = currentFilepath.replace(File.separator, "/");
 
-        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(currentFilepath);
-                OutputStream out = res.getOutputStream();) {
+        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(currentFilepath)) {
 
+            OutputStream out = res.getOutputStream();
             if (inputStream == null) {
-                res.setStatusCode(404);
-                res.writeResponse("File Not found");
+                // File not found should try to execute the next middleware.
+                ctx.executeNextMiddleware();
+                ctx.markMiddlewareNotExecuted();
                 return;
             }
 

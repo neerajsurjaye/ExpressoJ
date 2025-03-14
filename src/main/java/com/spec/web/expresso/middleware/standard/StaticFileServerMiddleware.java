@@ -102,6 +102,12 @@ class StaticFileServerMiddleware implements Middleware {
             mimeType = "application/octet-stream";
         res.setContentTypeHeader(mimeType);
 
+        if (!Files.exists(fullPath)) {
+            ctx.executeNextMiddleware();
+            ctx.markMiddlewareNotExecuted();
+            return;
+        }
+
         /**
          * Tries to read the data
          * 

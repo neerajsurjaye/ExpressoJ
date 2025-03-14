@@ -42,6 +42,10 @@ public class MiddlewareContext {
         isMiddlewareExecutedOnCurrentPath = true;
     }
 
+    public void markMiddlewareNotExecuted() {
+        isMiddlewareExecutedOnCurrentPath = false;
+    }
+
     protected boolean wasMiddlewareExecutedOnCurrentPath() {
         return isMiddlewareExecutedOnCurrentPath;
     }
