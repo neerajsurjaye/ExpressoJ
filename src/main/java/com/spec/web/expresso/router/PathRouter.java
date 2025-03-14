@@ -328,4 +328,43 @@ public class PathRouter implements IPathRouter {
         addMiddlewares(Methods.METHOD_DELETE, middleware, additionalMiddleware);
 
     }
+
+    /**
+     * Registers one middleware which will execute before the routers being
+     * registerd.
+     * 
+     * All the middlewares registered on these routers will
+     * execute on current router path.
+     * 
+     * @param middleware The middleware to register
+     * @param addRouters Optional. List of routers to registers with the current
+     *                   middleware
+     */
+    @Override
+    public void use(Middleware middleware, IPathRouter... additionalRouters) {
+        addMiddlewares(null, Methods.METHOD_USE, middleware);
+        for (IPathRouter currRouter : additionalRouters) {
+            middlewares.addAll(currRouter.getMiddlewareMetadataAsList());
+        }
+    }
+
+    /**
+     * Registers one middleware which will execute before the routers being
+     * registerd. All of these are registered on the a path.
+     * 
+     * All the middlewares registered on these routers will
+     * execute on current router path.
+     * 
+     * @param middleware The middleware to register
+     * @param addRouters Optional. List of routers to registers with the current
+     *                   middleware
+     */
+    @Override
+    public void use(String path, Middleware middleware, IPathRouter... addRouters) {
+        addMiddlewares(path, Methods.METHOD_GET, middleware);
+        for (IPathRouter currentRouter : addRouters) {
+            IPathRouter copyOfCurrentRouter = currentRouter.registerRouterOnPath(path);
+            this.middlewares.addAll(copyOfCurrentRouter.getMiddlewareMetadataAsList());
+        }
+    }
 }
