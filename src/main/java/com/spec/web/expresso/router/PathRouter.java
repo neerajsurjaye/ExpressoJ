@@ -361,7 +361,7 @@ public class PathRouter implements IPathRouter {
      */
     @Override
     public void use(String path, Middleware middleware, IPathRouter... addRouters) {
-        addMiddlewares(path, Methods.METHOD_GET, middleware);
+        addMiddlewares(path, Methods.METHOD_USE, middleware);
         for (IPathRouter currentRouter : addRouters) {
             IPathRouter copyOfCurrentRouter = currentRouter.registerRouterOnPath(path);
             this.middlewares.addAll(copyOfCurrentRouter.getMiddlewareMetadataAsList());
