@@ -141,4 +141,15 @@ public class HttpRequest implements Request {
         return req.getReader();
     }
 
+    /**
+     * Returns the value of header for the specified header name.
+     * 
+     * @param headerName
+     * @return Value of the header.
+     */
+    @Override
+    public String getHeader(String headerName) {
+        return req.getHeader(headerName);
+    }
+
 }

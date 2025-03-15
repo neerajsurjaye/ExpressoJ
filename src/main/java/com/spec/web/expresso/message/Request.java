@@ -66,4 +66,12 @@ public interface Request {
      */
     Reader getReader() throws IOException;
 
+    /**
+     * Returns the value of header for the specified header name.
+     * 
+     * @param headerName
+     * @return Value of the header.
+     */
+    String getHeader(String headerName);
+
 }
