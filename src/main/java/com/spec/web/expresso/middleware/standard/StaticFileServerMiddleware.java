@@ -82,6 +82,14 @@ class StaticFileServerMiddleware implements Middleware {
         }
 
         /**
+         * Checks if file exists on this path
+         */
+        if (!Files.exists(fullPath)) {
+            res.resetResponse();
+            return;
+        }
+
+        /**
          * Checks for symlink attacks
          */
         try {
