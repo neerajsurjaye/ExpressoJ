@@ -81,11 +81,9 @@ class StaticFileServerMiddleware implements Middleware {
             return;
         }
 
-        /**
-         * Checks if file exists on this path
-         */
         if (!Files.exists(fullPath)) {
-            res.resetResponse();
+            ctx.executeNextMiddleware();
+            ctx.markMiddlewareNotExecuted();
             return;
         }
 
@@ -109,12 +107,6 @@ class StaticFileServerMiddleware implements Middleware {
         if (mimeType == null)
             mimeType = "application/octet-stream";
         res.setContentTypeHeader(mimeType);
-
-        if (!Files.exists(fullPath)) {
-            ctx.executeNextMiddleware();
-            ctx.markMiddlewareNotExecuted();
-            return;
-        }
 
         /**
          * Tries to read the data
