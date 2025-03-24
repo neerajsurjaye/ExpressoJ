@@ -55,4 +55,13 @@ public class ExpressoOutputStream extends OutputStream {
         return outputStream.toString();
     }
 
+    public void _closeFlush() {
+        try {
+            this.outputStream.flush();
+            this.outputStream.close();
+        } catch (Exception e) {
+            log.error("Error while closing output stream {}", e);
+        }
+    }
+
 }

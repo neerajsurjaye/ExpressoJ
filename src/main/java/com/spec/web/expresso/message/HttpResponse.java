@@ -8,12 +8,14 @@ import com.spec.web.expresso.util.ExpressoOutputStream;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Wrapper class over HttpServletResponse.
  * 
  * Helps in handling http response
  */
+@Slf4j
 public class HttpResponse implements Response {
 
     HttpServletResponse resp;
@@ -41,7 +43,7 @@ public class HttpResponse implements Response {
             responseOutputStream.write(response.getBytes(StandardCharsets.UTF_8));
             responseOutputStream.flush();
         } catch (IOException ioE) {
-            ioE.printStackTrace();
+            log.error("Error while writing response {}", ioE);
         }
 
         return this;
@@ -159,8 +161,9 @@ public class HttpResponse implements Response {
     public boolean _closeOutputStream() {
         if (this.responseOutputStream != null) {
             try {
-                responseOutputStream.close();
-            } catch (IOException e) {
+                ExpressoOutputStream outStream = (ExpressoOutputStream) responseOutputStream;
+                outStream._closeFlush();
+            } catch (Exception e) {
                 return false;
             }
         }
