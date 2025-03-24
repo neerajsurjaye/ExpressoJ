@@ -41,7 +41,6 @@ public class HttpResponse implements Response {
         try {
             responseOutputStream = this.getOutputStream();
             responseOutputStream.write(response.getBytes(StandardCharsets.UTF_8));
-            responseOutputStream.flush();
         } catch (IOException ioE) {
             log.error("Error while writing response {}", ioE);
         }
