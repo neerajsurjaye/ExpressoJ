@@ -224,6 +224,20 @@ public class PathRouter implements IPathRouter {
     }
 
     /**
+     * Creates middleware metadata and adds it to the current list of middleware
+     * metadata
+     * 
+     * @param method               The http methods on which the middleware should
+     *                             be registered.
+     * @param middleware           The primary middleware to register.
+     * @param additionalMiddleware Optional. Additional middlewares to register.
+     */
+    private void addMiddlewares(String method, Middleware middleware,
+            Middleware... additionalMiddleware) {
+        addMiddlewares(null, method, middleware, additionalMiddleware);
+    }
+
+    /**
      * Returns the list of all middlewareMetadatas registerd on the current router
      * 
      * @return List of middlewareMetadata
@@ -231,5 +245,126 @@ public class PathRouter implements IPathRouter {
     @Override
     public List<MiddlewareMetaData> getMiddlewareMetadataAsList() {
         return new ArrayList<>(middlewares);
+    }
+
+    /**
+     * Registers a middleware metadata while also setting its path on it.
+     */
+    @Override
+    public void use(String path, MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas) {
+        middlewareMetaData.setPath(path);
+        middlewares.add(middlewareMetaData);
+
+        for (MiddlewareMetaData mmd : middlewareMetaDatas) {
+            mmd.setPath(path);
+            middlewares.add(mmd);
+        }
+
+    }
+
+    /**
+     * Registers a middleware metadata while also setting its path on it.
+     */
+    @Override
+    public void use(MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas) {
+        String path = "";
+        middlewareMetaData.setPath(path);
+        middlewares.add(middlewareMetaData);
+
+        for (MiddlewareMetaData mmd : middlewareMetaDatas) {
+            mmd.setPath(path);
+            middlewares.add(mmd);
+        }
+
+    }
+
+    /**
+     * Registers middlewares on empty path which will only execute for HTTP get
+     * methods.
+     * 
+     * @param middleware           Primary middleware to register.
+     * @param additionalMiddleware Optional. Additional middlewares to register.
+     */
+    @Override
+    public void get(Middleware middleware, Middleware... additionalMiddleware) {
+        addMiddlewares(Methods.METHOD_GET, middleware, additionalMiddleware);
+    }
+
+    /**
+     * Registers middlewares on empty path which will only execute for HTTP POST
+     * methods.
+     * 
+     * 
+     * @param middleware           Primary middleware to register.
+     * @param additionalMiddleware Optional. Additional middlewares to register.
+     */
+    @Override
+    public void post(Middleware middleware, Middleware... additionalMiddleware) {
+        addMiddlewares(Methods.METHOD_POST, middleware, additionalMiddleware);
+
+    }
+
+    /**
+     * Registers middlewares on a path which will only execute for HTTP PUT
+     * methods.
+     *
+     * @param middleware           Primary middleware to register.
+     * @param additionalMiddleware Optional. Additional middlewares to register.
+     */
+    @Override
+    public void put(Middleware middleware, Middleware... additionalMiddleware) {
+        addMiddlewares(Methods.METHOD_PUT, middleware, additionalMiddleware);
+    }
+
+    /**
+     * Registers middlewares on a path which will only execute for HTTP DELETE
+     * methods.
+     * 
+     * @param middleware           Primary middleware to register.
+     * @param additionalMiddleware Optional. Additional middlewares to register.
+     */
+    @Override
+    public void delete(Middleware middleware, Middleware... additionalMiddleware) {
+        addMiddlewares(Methods.METHOD_DELETE, middleware, additionalMiddleware);
+
+    }
+
+    /**
+     * Registers one middleware which will execute before the routers being
+     * registerd.
+     * 
+     * All the middlewares registered on these routers will
+     * execute on current router path.
+     * 
+     * @param middleware The middleware to register
+     * @param addRouters Optional. List of routers to registers with the current
+     *                   middleware
+     */
+    @Override
+    public void use(Middleware middleware, IPathRouter... additionalRouters) {
+        addMiddlewares(null, Methods.METHOD_USE, middleware);
+        for (IPathRouter currRouter : additionalRouters) {
+            middlewares.addAll(currRouter.getMiddlewareMetadataAsList());
+        }
+    }
+
+    /**
+     * Registers one middleware which will execute before the routers being
+     * registerd. All of these are registered on the a path.
+     * 
+     * All the middlewares registered on these routers will
+     * execute on current router path.
+     * 
+     * @param middleware The middleware to register
+     * @param addRouters Optional. List of routers to registers with the current
+     *                   middleware
+     */
+    @Override
+    public void use(String path, Middleware middleware, IPathRouter... addRouters) {
+        addMiddlewares(path, Methods.METHOD_USE, middleware);
+        for (IPathRouter currentRouter : addRouters) {
+            IPathRouter copyOfCurrentRouter = currentRouter.registerRouterOnPath(path);
+            this.middlewares.addAll(copyOfCurrentRouter.getMiddlewareMetadataAsList());
+        }
     }
 }

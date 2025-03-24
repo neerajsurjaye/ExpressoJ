@@ -1,5 +1,10 @@
 package com.spec.web.expresso.message;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
+import jakarta.servlet.http.Cookie;
+
 /**
  * Modifies the response that will be send to the client.
  */
@@ -59,4 +64,24 @@ public interface Response {
      * @return returns the current class instance for method chaining.
      */
     Response resetResponseBody();
+
+    /**
+     * Returns the output stream from response servlet.
+     * 
+     * @return OutputStream
+     */
+    OutputStream getOutputStream() throws IOException;
+
+    /**
+     * Closes the output stream. Returns true if successfull
+     */
+    boolean _closeOutputStream();
+
+    /**
+     * Sets a cookie that will be sent to the client.
+     * 
+     * @param key
+     * @param value
+     */
+    void setCookies(Cookie cookie, Cookie... moreCookies);
 }

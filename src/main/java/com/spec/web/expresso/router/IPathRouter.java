@@ -37,8 +37,6 @@ public interface IPathRouter {
      */
     void use(IPathRouter router, IPathRouter... addRouters);
 
-    /** Middleware wiil execute regardless of HTTP method */
-
     /**
      * Registers routers on a path. All the middlewares registered on these routers
      * will execute on current router path + the registered path.
@@ -61,6 +59,15 @@ public interface IPathRouter {
     void get(String path, Middleware middleware, Middleware... additionalMiddleware);
 
     /**
+     * Registers middlewares on empty path which will only execute for HTTP get
+     * methods.
+     * 
+     * @param middleware           Primary middleware to register.
+     * @param additionalMiddleware Optional. Additional middlewares to register.
+     */
+    void get(Middleware middleware, Middleware... additionalMiddleware);
+
+    /**
      * Registers middlewares on a path which will only execute for HTTP POST
      * methods.
      * 
@@ -70,6 +77,16 @@ public interface IPathRouter {
      * @param additionalMiddleware Optional. Additional middlewares to register.
      */
     void post(String path, Middleware middleware, Middleware... additionalMiddleware);
+
+    /**
+     * Registers middlewares on empty path which will only execute for HTTP POST
+     * methods.
+     * 
+     * 
+     * @param middleware           Primary middleware to register.
+     * @param additionalMiddleware Optional. Additional middlewares to register.
+     */
+    void post(Middleware middleware, Middleware... additionalMiddleware);
 
     /**
      * Registers middlewares on a path which will only execute for HTTP PUT
@@ -83,6 +100,15 @@ public interface IPathRouter {
     void put(String path, Middleware middleware, Middleware... additionalMiddleware);
 
     /**
+     * Registers middlewares on a path which will only execute for HTTP PUT
+     * methods.
+     *
+     * @param middleware           Primary middleware to register.
+     * @param additionalMiddleware Optional. Additional middlewares to register.
+     */
+    void put(Middleware middleware, Middleware... additionalMiddleware);
+
+    /**
      * Registers middlewares on a path which will only execute for HTTP DELETE
      * methods.
      * 
@@ -92,6 +118,15 @@ public interface IPathRouter {
      * @param additionalMiddleware Optional. Additional middlewares to register.
      */
     void delete(String path, Middleware middleware, Middleware... additionalMiddleware);
+
+    /**
+     * Registers middlewares on a path which will only execute for HTTP DELETE
+     * methods.
+     * 
+     * @param middleware           Primary middleware to register.
+     * @param additionalMiddleware Optional. Additional middlewares to register.
+     */
+    void delete(Middleware middleware, Middleware... additionalMiddleware);
 
     /**
      * Creates a clone of current router and registers it on a path. The current
@@ -110,5 +145,37 @@ public interface IPathRouter {
      * @return List of middlewareMetadata
      */
     List<MiddlewareMetaData> getMiddlewareMetadataAsList();
+
+    /** Middleware will register a middlewareMetadata */
+    void use(String path, MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas);
+
+    /** Middleware will register a middlewareMetadata */
+    void use(MiddlewareMetaData middlewareMetaData, MiddlewareMetaData... middlewareMetaDatas);
+
+    /**
+     * Registers one middleware which will execute before the routers being
+     * registerd.
+     * 
+     * All the middlewares registered on these routers will
+     * execute on current router path.
+     * 
+     * @param middleware The middleware to register
+     * @param addRouters Optional. List of routers to registers with the current
+     *                   middleware
+     */
+    void use(Middleware middleware, IPathRouter... addRouters);
+
+    /**
+     * Registers one middleware which will execute before the routers being
+     * registerd. All of these are registered on the a path.
+     * 
+     * All the middlewares registered on these routers will
+     * execute on current router path.
+     * 
+     * @param middleware The middleware to register
+     * @param addRouters Optional. List of routers to registers with the current
+     *                   middleware
+     */
+    void use(String path, Middleware middleware, IPathRouter... addRouters);
 
 }

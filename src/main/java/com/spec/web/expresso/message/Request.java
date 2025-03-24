@@ -1,21 +1,14 @@
 package com.spec.web.expresso.message;
 
 import java.io.IOException;
+import java.io.Reader;
+
+import jakarta.servlet.http.Cookie;
 
 /**
  * Represent a Http request
  */
 public interface Request {
-    /**
-     * Gives the payload as json
-     * 
-     * @param <T>  The json response type
-     * @param type The class type to deserialize to
-     * @return The deserialized object
-     * @throws IllegalArgumentException If payload is invalid
-     * @throws IOException              If there is error reading the request body
-     */
-    public <T> T json(Class<T> type) throws IllegalArgumentException, IOException;
 
     /**
      * Returns the body(payload) of the Http request
@@ -26,24 +19,59 @@ public interface Request {
      */
     String body() throws IOException;
 
-    /* TODO: change its name */
     /**
-     * Get the url parameter value against the given name.
+     * Get the route parameter value against the given name.
      * 
      * @param name name of the parameter , this name should be same as the name of
      *             the parameter mentioned in the url pattern
      * 
      * @return value of the parameter
      */
-    String getParams(String name);
+    String getRouteParams(String name);
 
     /**
-     * Return the query parameter value against the name
+     * Return the query/search parameter value against the name
      * 
      * @param name name of the query parameter
      * 
      * @return value of the query parameter
      */
-    String getQuery(String name);
+    String getUrlParams(String name);
+
+    /**
+     * Retrives the path of the current request url.
+     * 
+     * @return the path of the current request
+     */
+    String getRequestPath();
+
+    /**
+     * Returns the mime type of file passed to it.
+     * 
+     * @return MIME type of file
+     */
+    String getMimeType(String fileName);
+
+    /**
+     * Returns list of cookies sent by the client
+     * 
+     * @return List of cookies
+     */
+    Cookie[] getCookies();
+
+    /**
+     * Returns a reader object to read request body.
+     * 
+     * @return Reader instance to read request body.
+     */
+    Reader getReader() throws IOException;
+
+    /**
+     * Returns the value of header for the specified header name.
+     * 
+     * @param headerName
+     * @return Value of the header.
+     */
+    String getHeader(String headerName);
 
 }

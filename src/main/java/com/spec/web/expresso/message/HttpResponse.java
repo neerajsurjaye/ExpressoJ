@@ -1,6 +1,12 @@
 package com.spec.web.expresso.message;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
+import com.spec.web.expresso.util.ExpressoOutputStream;
+
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
@@ -11,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class HttpResponse implements Response {
 
     HttpServletResponse resp;
+    OutputStream responseOutputStream = null;
 
     /**
      * Constructs an instance of this class
@@ -29,20 +36,15 @@ public class HttpResponse implements Response {
      */
     @Override
     public HttpResponse writeResponse(String response) {
-
         try {
-            resp.getWriter().write(response);
-        } catch (IOException e) {
-            try {
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.toString());
-            } catch (IOException e1) {
-                // add logger
-                e1.printStackTrace();
-            }
+            responseOutputStream = this.getOutputStream();
+            responseOutputStream.write(response.getBytes(StandardCharsets.UTF_8));
+            responseOutputStream.flush();
+        } catch (IOException ioE) {
+            ioE.printStackTrace();
         }
 
         return this;
-
     }
 
     /**
@@ -127,6 +129,58 @@ public class HttpResponse implements Response {
     public HttpResponse resetResponseBody() {
         this.resp.resetBuffer();
         return this;
+    }
+
+    /**
+     * Returns the httpservletresponse used internally by Expresso.
+     * 
+     * @return HttpServletResponse
+     */
+    public HttpServletResponse getHttpServletResponse() {
+        return resp;
+    }
+
+    /**
+     * Returns the output stream from response servlet.
+     * 
+     * @return OutputStream
+     * @throws IOException
+     */
+    @Override
+    public OutputStream getOutputStream() throws IOException {
+        OutputStream out = resp.getOutputStream();
+        return new ExpressoOutputStream(out);
+    }
+
+    /**
+     * Closes the output stream. Returns true if successfull
+     */
+    @Override
+    public boolean _closeOutputStream() {
+        if (this.responseOutputStream != null) {
+            try {
+                responseOutputStream.close();
+            } catch (IOException e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Sets a cookie that will be sent to the client.
+     * 
+     * @param key
+     * @param value
+     */
+    @Override
+    public void setCookies(Cookie cookie, Cookie... moreCookies) {
+        resp.addCookie(cookie);
+
+        for (Cookie aCookie : moreCookies) {
+            resp.addCookie(aCookie);
+        }
+
     }
 
 }

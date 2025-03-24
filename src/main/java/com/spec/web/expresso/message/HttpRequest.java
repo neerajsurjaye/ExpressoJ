@@ -1,25 +1,23 @@
 package com.spec.web.expresso.message;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 import java.util.Map;
 
-import com.google.gson.Gson;
 import com.spec.web.expresso.util.URLParser;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Wrapper class over HttpServletRequest.
- * Helps in handling of Http request
+ * Helps in handling of Http request.
  */
 public class HttpRequest implements Request {
 
     HttpServletRequest req;
-
-    private static final int BUFFER_SIZE = 1024;
+    String currentUrlPattern = null;
 
     /**
      * Constructs an instance of HttpRequest wrapping an HttpServletRequest.
@@ -31,75 +29,43 @@ public class HttpRequest implements Request {
     }
 
     /**
-     * Returns the Http body of the HttpRequest in String format
+     * Returns the Http body of the HttpRequest as String.
      * 
      * @return payload in string format
      */
     @Override
     public String body() throws IOException {
-        InputStream inputStream = req.getInputStream();
-        if (inputStream == null)
-            return "";
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[BUFFER_SIZE];
-        int length;
-        while ((length = inputStream.read(buffer)) > 0) {
-            outputStream.write(buffer, 0, length);
+
+        StringBuilder sb = new StringBuilder();
+
+        BufferedReader bfr = req.getReader();
+        String line;
+
+        while ((line = bfr.readLine()) != null) {
+            sb.append(line).append("\n");
         }
-
-        byte[] requestBody = outputStream.toByteArray();
-        // Get the character encoding from the request
-        String encoding = req.getCharacterEncoding();
-        if (encoding == null) {
-            // If the request doesn't specify the encoding, use a default (e.g., UTF-8)
-            encoding = "UTF-8";
-        }
-        // Convert the request body to a string using the specified encoding
-        return new String(requestBody, encoding);
-    }
-
-    /**
-     * Deserializes a JSON string to an instance of specified class
-     * 
-     * pass the Class.class to the following function.
-     * Ex: json(Myclass.class)
-     * 
-     * it will the object of Myclass
-     * 
-     * @throws IOException May throw and IOException if it get issue reading/parsing
-     *                     the body of request.
-     */
-    @Override
-    public <T> T json(Class<T> type) throws IllegalArgumentException, IOException {
-        String contentType = req.getContentType();
-
-        // todo: in future .err should handle this
-        if (!("application/json".equals(contentType))) {
-            throw new IllegalArgumentException("Invalid content type");
-        }
-
-        BufferedReader reader = req.getReader();
-        Gson gson = new Gson();
-        return gson.fromJson(reader, type);
+        return sb.toString();
 
     }
 
     /**
-     * Get the url parameter value against the given name
+     * Get the route parameter value against the given name
      * 
-     * @param name name of the parameter , this name should be same as the name of
-     *             the parameter mentioned in the url pattern
+     * @param name name of the route parameter , this name should be same as the
+     *             name of
+     *             the parameter mentioned in the url pattern. Ex: /user/:id so
+     *             parameter name will be 'id'.
      * 
      * @return value of the parameter
      */
     @Override
-    public String getParams(String name) {
-        String urlPattern = ""; // in future get this from the req attribute
-        Map<String, String> urlParameter = URLParser.getPathVariables(urlPattern, req.getPathInfo());
+    public String getRouteParams(String name) {
+        String currentPath = req.getPathInfo();
+
+        Map<String, String> urlParameter = URLParser.getRouteParameters(this.currentUrlPattern, currentPath);
         return urlParameter.get(name) != null ? urlParameter.get(name) : "";
     }
 
-    /* TODO: Change the names */
     /**
      * Return the query parameter value against the name
      * 
@@ -108,8 +74,82 @@ public class HttpRequest implements Request {
      * @return value of the query parameter
      */
     @Override
-    public String getQuery(String name) {
+    public String getUrlParams(String name) {
         return req.getParameter(name);
+    }
+
+    /**
+     * Sets the current url pattern
+     * 
+     * @param currentUrlPattern Url pattern on which the current middlware is
+     *                          executing on.
+     */
+    public void setCurrentUrlPattern(String currentUrlPattern) {
+        this.currentUrlPattern = currentUrlPattern;
+    }
+
+    /**
+     * Return http servlet request which is used internally by Expresso.
+     * 
+     * @return HttpServletRequest
+     */
+    public HttpServletRequest getHttpServletRequest() {
+        return req;
+    }
+
+    /**
+     * Retrives the path of the current request url.
+     * 
+     * @return the path of the current request
+     */
+    @Override
+    public String getRequestPath() {
+        return req.getRequestURI();
+    }
+
+    /**
+     * Returns the mime type of file name passed to it.
+     * 
+     * @return MIME type of the file
+     */
+    @Override
+    public String getMimeType(String fileName) {
+        return req.getServletContext().getMimeType(fileName);
+    }
+
+    /**
+     * Returns list of cookies sent by the client
+     * 
+     * @return List of cookies
+     */
+    @Override
+    public Cookie[] getCookies() {
+        Cookie[] resp = req.getCookies();
+        if (resp == null) {
+            resp = new Cookie[0];
+        }
+        return resp;
+    }
+
+    /**
+     * Returns a reader object to read request body.
+     * 
+     * @return Reader instance to read request body.
+     */
+    @Override
+    public Reader getReader() throws IOException {
+        return req.getReader();
+    }
+
+    /**
+     * Returns the value of header for the specified header name.
+     * 
+     * @param headerName
+     * @return Value of the header.
+     */
+    @Override
+    public String getHeader(String headerName) {
+        return req.getHeader(headerName);
     }
 
 }
