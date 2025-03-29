@@ -50,9 +50,10 @@ public class PathRouter implements IPathRouter {
      * @param additionalMiddleware more middlewares it may execute
      */
     @Override
-    public void use(Middleware middleware, Middleware... additionalMiddleware) {
+    public void use(Middleware middleware, Middleware addMiddleware, Middleware... additionalMiddleware) {
 
-        addMiddlewares(null, Methods.METHOD_USE, middleware, additionalMiddleware);
+        addMiddlewares(null, Methods.METHOD_USE, middleware);
+        addMiddlewares(null, Methods.METHOD_USE, addMiddleware, additionalMiddleware);
 
     }
 
@@ -66,9 +67,10 @@ public class PathRouter implements IPathRouter {
      * @param additionalMiddleware Optional. More middlewares to regiter
      */
     @Override
-    public void use(String path, Middleware middleware, Middleware... additionalMiddleware) {
+    public void use(String path, Middleware middleware, Middleware addMiddleware, Middleware... additionalMiddleware) {
 
-        addMiddlewares(path, Methods.METHOD_USE, middleware, additionalMiddleware);
+        addMiddlewares(path, Methods.METHOD_USE, middleware);
+        addMiddlewares(path, Methods.METHOD_USE, addMiddleware, additionalMiddleware);
     }
 
     /**
@@ -341,8 +343,9 @@ public class PathRouter implements IPathRouter {
      *                   middleware
      */
     @Override
-    public void use(Middleware middleware, IPathRouter... additionalRouters) {
+    public void use(Middleware middleware, IPathRouter iPathRouter, IPathRouter... additionalRouters) {
         addMiddlewares(null, Methods.METHOD_USE, middleware);
+        middlewares.addAll(iPathRouter.getMiddlewareMetadataAsList());
         for (IPathRouter currRouter : additionalRouters) {
             middlewares.addAll(currRouter.getMiddlewareMetadataAsList());
         }
@@ -360,11 +363,41 @@ public class PathRouter implements IPathRouter {
      *                   middleware
      */
     @Override
-    public void use(String path, Middleware middleware, IPathRouter... addRouters) {
+    public void use(String path, Middleware middleware, IPathRouter iPathRouter, IPathRouter... addRouters) {
         addMiddlewares(path, Methods.METHOD_USE, middleware);
+
+        IPathRouter copyOfCurrentRouter = iPathRouter.registerRouterOnPath(path);
+        this.middlewares.addAll(copyOfCurrentRouter.getMiddlewareMetadataAsList());
+
         for (IPathRouter currentRouter : addRouters) {
-            IPathRouter copyOfCurrentRouter = currentRouter.registerRouterOnPath(path);
+            copyOfCurrentRouter = currentRouter.registerRouterOnPath(path);
             this.middlewares.addAll(copyOfCurrentRouter.getMiddlewareMetadataAsList());
         }
+    }
+
+    /**
+     * Registers a middleware. The middlewares will execute regardless of
+     * http method.
+     * 
+     * @param middleware The primary middleware to register
+     */
+    @Override
+    public void use(Middleware middleware) {
+        addMiddlewares(null, Methods.METHOD_USE, middleware);
+    }
+
+    /**
+     * Registers a middleware on a path. The middlewares will execute regardless of
+     * http method.
+     * 
+     * @param path       The path on which the middlewares will be
+     *                   registered.
+     * 
+     * @param middleware The primary middleware to register
+     */
+    @Override
+    public void use(String path, Middleware middleware) {
+        addMiddlewares(path, Methods.METHOD_USE, middleware);
+
     }
 }
