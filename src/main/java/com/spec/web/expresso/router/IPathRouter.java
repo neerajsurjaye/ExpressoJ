@@ -9,24 +9,47 @@ import com.spec.web.expresso.middleware.MiddlewareMetaData;
 public interface IPathRouter {
 
     /**
+     * Registers a middleware. The middleware will execute regardless of
+     * http method.
+     * 
+     * @param middleware The primary middleware to register
+     */
+    void use(Middleware middleware);
+
+    /**
+     * Registers a middleware on a path. The middlewares will execute regardless of
+     * http method.
+     * 
+     * @param path       The path on which the middlewares will be
+     *                   registered.
+     * 
+     * @param middleware The primary middleware to register
+     */
+    void use(String path, Middleware middleware);
+
+    /**
      * Registers middlewares. The middlewares will execute regardless of
      * http method.
      * 
-     * @param middleware           The primary middleware to register
-     * @param additionalMiddleware more middlewares it may execute
+     * 
+     * 
+     * @param middleware            The primary middleware to register
+     * @param addMiddleware         Additional middleware
+     * @param additionalMiddlewares more middlewares it may execute
      */
-    void use(Middleware middleware, Middleware... additionalMiddleware);
+    void use(Middleware middleware, Middleware addMiddleware, Middleware... additionalMiddlewares);
 
     /**
      * Registers middlewares on a path. The middlewares will execute regardless of
      * http method.
      * 
-     * @param path                 The path on which the middlewares will be
-     *                             registered.
-     * @param middleware           The primary middleware to register
-     * @param additionalMiddleware Optional. More middlewares to regiter
+     * @param path                   The path on which the middlewares will be
+     *                               registered.
+     * @param middleware             The primary middleware to register
+     * @param addMiddleware          Additional middleware
+     * @param additionalMiddlewarses Optional. More middlewares to regiter
      */
-    void use(String path, Middleware middleware, Middleware... additionalMiddleware);
+    void use(String path, Middleware middleware, Middleware addMiddleware, Middleware... additionalMiddlewares);
 
     /**
      * Registers routers. All the middlewares registered on these routers will
@@ -159,11 +182,13 @@ public interface IPathRouter {
      * All the middlewares registered on these routers will
      * execute on current router path.
      * 
-     * @param middleware The middleware to register
-     * @param addRouters Optional. List of routers to registers with the current
-     *                   middleware
+     * @param middleware        The middleware to register
+     * @param iPathRouter       Router to register on this path.
+     * @param additionalRouters Optional. List of routers to registers with the
+     *                          current
+     *                          middleware
      */
-    void use(Middleware middleware, IPathRouter... addRouters);
+    void use(Middleware middleware, IPathRouter iPathRouter, IPathRouter... additionalRouters);
 
     /**
      * Registers one middleware which will execute before the routers being
@@ -176,6 +201,6 @@ public interface IPathRouter {
      * @param addRouters Optional. List of routers to registers with the current
      *                   middleware
      */
-    void use(String path, Middleware middleware, IPathRouter... addRouters);
+    void use(String path, Middleware middleware, IPathRouter iPathRouter, IPathRouter... addRouters);
 
 }
