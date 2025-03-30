@@ -41,6 +41,11 @@ public class Expresso extends PathRouter {
 
     }
 
+    /**
+     * Returns the instance of Expresso Class.
+     * 
+     * @return instance of expresso Class.
+     */
     public static Expresso getExpressoObj() {
         return expressoObj;
     }
@@ -66,6 +71,7 @@ public class Expresso extends PathRouter {
      * Starts the server over a network port.
      * 
      * @param port the port number on which the class should listen.
+     * @return An instance of Expresso. Can be used for method chaining.
      */
     public Expresso listenOnPort(int port) {
         if (this.isServerStarted) {
@@ -76,6 +82,12 @@ public class Expresso extends PathRouter {
         return this;
     }
 
+    /**
+     * Sets the host ip of the network adapter on which the server should listen on.
+     * 
+     * @param host Ip address of the network adapter.
+     * @return An instance of Expresso. Can be used for method chaining.
+     */
     public Expresso setHost(String host) {
         if (this.isServerStarted) {
             throw new IllegalStateException("Server has already started cannot set host");
@@ -85,6 +97,12 @@ public class Expresso extends PathRouter {
         return this;
     }
 
+    /**
+     * Set's the context path.
+     * 
+     * @param contextPath Context path
+     * @return An instance of Expresso. Can be used for method chaining.
+     */
     public Expresso setContextPath(String contextPath) {
         if (this.isServerStarted) {
             throw new IllegalStateException("Server has already started cannot set contextPath");
@@ -130,6 +148,9 @@ public class Expresso extends PathRouter {
         }
     }
 
+    /**
+     * Stops the server.
+     */
     public synchronized void stopServer() {
         if (this.server != null) {
             server.stop();

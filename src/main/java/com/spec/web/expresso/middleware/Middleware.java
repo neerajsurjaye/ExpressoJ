@@ -17,9 +17,9 @@ public interface Middleware {
      * The MiddlewareFlowController.next() is used to call the next middleware on
      * the queue.
      * 
-     * @param req  the http request
-     * @param res  the http response
-     * @param next MiddlewareFlowController
+     * @param req the http request
+     * @param res the http response
+     * @param ctx MiddlewareFlowController
      */
     public void execute(HttpRequest req, HttpResponse res, MiddlewareContext ctx);
 

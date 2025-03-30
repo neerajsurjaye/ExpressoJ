@@ -3,6 +3,9 @@ package com.spec.web.expresso.middleware.standard;
 import com.spec.web.expresso.constants.Methods;
 import com.spec.web.expresso.middleware.MiddlewareMetaData;
 
+/**
+ * Hosts the static files contained in /resrouces folder.
+ */
 public class StaticResourceServer extends MiddlewareMetaData {
     /**
      * Create an instance of class with a staticResourcePath

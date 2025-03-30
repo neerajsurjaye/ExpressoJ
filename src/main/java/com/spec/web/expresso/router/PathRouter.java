@@ -338,9 +338,11 @@ public class PathRouter implements IPathRouter {
      * All the middlewares registered on these routers will
      * execute on current router path.
      * 
-     * @param middleware The middleware to register
-     * @param addRouters Optional. List of routers to registers with the current
-     *                   middleware
+     * @param middleware        The middleware to register
+     * @param iPathRouter       Router that should execute after the middleware.
+     * @param additionalRouters Optional. List of routers to registers with the
+     *                          current
+     *                          middleware
      */
     @Override
     public void use(Middleware middleware, IPathRouter iPathRouter, IPathRouter... additionalRouters) {
