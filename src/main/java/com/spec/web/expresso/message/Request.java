@@ -48,6 +48,7 @@ public interface Request {
     /**
      * Returns the mime type of file passed to it.
      * 
+     * @param fileName The file for which the mime type should be found out.
      * @return MIME type of file
      */
     String getMimeType(String fileName);
@@ -63,13 +64,14 @@ public interface Request {
      * Returns a reader object to read request body.
      * 
      * @return Reader instance to read request body.
+     * @throws IOException IOException
      */
     Reader getReader() throws IOException;
 
     /**
      * Returns the value of header for the specified header name.
      * 
-     * @param headerName
+     * @param headerName The name of the header.
      * @return Value of the header.
      */
     String getHeader(String headerName);

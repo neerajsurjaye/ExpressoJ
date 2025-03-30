@@ -145,7 +145,7 @@ public class HttpResponse implements Response {
      * Returns the output stream from response servlet.
      * 
      * @return OutputStream
-     * @throws IOException
+     * @throws IOException IOException
      */
     @Override
     public OutputStream getOutputStream() throws IOException {
@@ -172,8 +172,8 @@ public class HttpResponse implements Response {
     /**
      * Sets a cookie that will be sent to the client.
      * 
-     * @param key
-     * @param value
+     * @param cookie      Cookie instance
+     * @param moreCookies More cookies :)
      */
     @Override
     public void setCookies(Cookie cookie, Cookie... moreCookies) {
