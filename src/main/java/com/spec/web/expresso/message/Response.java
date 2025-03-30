@@ -69,19 +69,22 @@ public interface Response {
      * Returns the output stream from response servlet.
      * 
      * @return OutputStream
+     * @throws IOException IOException
      */
     OutputStream getOutputStream() throws IOException;
 
     /**
      * Closes the output stream. Returns true if successfull
+     * 
+     * @return Returns true if successfull.
      */
     boolean _closeOutputStream();
 
     /**
      * Sets a cookie that will be sent to the client.
      * 
-     * @param key
-     * @param value
+     * @param cookie      Cookie instance
+     * @param moreCookies More cookies :)
      */
     void setCookies(Cookie cookie, Cookie... moreCookies);
 }

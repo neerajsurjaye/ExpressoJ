@@ -144,7 +144,7 @@ public class HttpRequest implements Request {
     /**
      * Returns the value of header for the specified header name.
      * 
-     * @param headerName
+     * @param headerName The name of the header.
      * @return Value of the header.
      */
     @Override
