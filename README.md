@@ -21,7 +21,7 @@ Then, add the following dependency in your dependent projects <code>pom.xml</cod
 </dependency>
     <groupId>com.spec.web</groupId>
     <artifactId>expressoj</artifactId>
-    <version>1.0.0-beta</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
